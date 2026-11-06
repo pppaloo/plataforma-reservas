@@ -1,0 +1,94 @@
+name: Security (DevSecOps)
+
+on:
+  push:
+    branches: [main, develop]
+  pull_request:
+    branches: [main]
+  schedule:
+    - cron: "0 6 * * 1"
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  security-events: write
+
+jobs:
+  sca:
+    name: SCA - dependencias (npm audit)
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Configurar Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 20
+
+      - name: Backend - dependencias de produccion
+        working-directory: backend
+        run: |
+          npm ci
+          npm audit --omit=dev --audit-level=high
+
+      - name: Frontend - dependencias de produccion
+        working-directory: frontend
+        run: |
+          npm ci
+          npm audit --omit=dev --audit-level=high
+
+  sast:
+    name: SAST - analisis estatico (CodeQL)
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Inicializar CodeQL
+        uses: github/codeql-action/init@v3
+        with:
+          languages: javascript-typescript
+          queries: security-extended
+
+      - name: Autobuild
+        uses: github/codeql-action/autobuild@v3
+
+      - name: Analizar
+        uses: github/codeql-action/analyze@v3
+
+  dast:
+    name: DAST - aplicacion desplegada (OWASP ZAP)
+    if: github.event_name == 'workflow_dispatch'
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Verificar URL publica configurada
+        env:
+          PUBLIC_URL: ${{ secrets.PUBLIC_URL }}
+        run: |
+          if [ -z "$PUBLIC_URL" ]; then
+            echo "Falta el secreto PUBLIC_URL con la URL HTTPS de la aplicacion."
+            exit 1
+          fi
+
+      - name: Escaneo baseline con OWASP ZAP
+        uses: zaproxy/action-baseline@v0.14.0
+        with:
+          target: ${{ secrets.PUBLIC_URL }}
+          rules_file_name: zap/rules.tsv
+          fail_action: true
+          allow_issue_writing: false
+
+      - name: Publicar reporte del escaneo
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: zap-baseline-report
+          path: |
+            report_html.html
+            report_json.json
+            report_md.md
+          if-no-files-found: warn

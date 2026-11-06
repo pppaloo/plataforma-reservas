@@ -1,0 +1,26 @@
+# Dependencias
+node_modules/
+
+# Compilados
+dist/
+build/
+coverage/
+
+# Secretos y configuracion local
+.env
+.env.local
+.env.*.local
+
+# Logs y temporales
+*.log
+npm-debug.log*
+.DS_Store
+Thumbs.db
+
+# Editores
+.vscode/
+.idea/
+
+# Reportes de escaneos (se guardan como evidencia en docs/, no en el repo raiz)
+zap-report.html
+zap-report.json

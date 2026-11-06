@@ -1,0 +1,11 @@
+# Reglas de ajuste para OWASP ZAP Baseline.
+# Formato: <ruleId> <ACCION> [comentario]
+# Acciones: IGNORE | WARN | FAIL | INFO
+#
+# Cada excepcion debe estar justificada en docs/03-informe-seguridad.md.
+#
+# 10202 - Absence of Anti-CSRF Tokens:
+#   La API no autentica mutaciones con cookies de sesion, sino con Bearer token.
+#   El unico cookie es el refresh token: httpOnly, Secure, SameSite y con path
+#   restringido a /api/auth, por lo que no se envia en peticiones de otros recursos.
+10202	IGNORE	CSRF no aplica: autenticacion Bearer y refresh token SameSite con path acotado
