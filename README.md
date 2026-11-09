@@ -5,7 +5,7 @@ autenticación JWT, control de acceso por roles, panel administrativo, formulari
 envío de correos, redes sociales administrables, chatbot generativo con contexto del negocio, pipeline CI/CD y
 análisis de seguridad DevSecOps.
 
-**Certamen práctico integrador — Desarrollo Web Seguro · DevOps · DevSecOps**
+**Proyecto César** · Certamen práctico integrador — Desarrollo Web Seguro · DevOps · DevSecOps
 
 ## Integrantes
 
@@ -185,7 +185,7 @@ La guía completa está en [`docs/04-manual-despliegue.md`](docs/04-manual-despl
 ## Estructura del repositorio
 
 ```
-plataforma-reservas/
+proyecto-cesar/
 ├─ backend/
 │  ├─ src/
 │  │  ├─ config/        variables de entorno y conexión a MongoDB

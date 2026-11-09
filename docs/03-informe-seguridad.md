@@ -15,7 +15,7 @@ ambiente controlado y con respaldo previo de la base de datos.
 | --- | --- |
 | Aplicación evaluada | ReservaPro |
 | URL | `https://TU-APP.onrender.com` |
-| Repositorio | `https://github.com/USUARIO/plataforma-reservas` |
+| Repositorio | `https://github.com/pppaloo/proyecto-cesar` |
 | Fecha del escaneo inicial | ____ / ____ / 2026 |
 | Fecha del re-escaneo | ____ / ____ / 2026 |
 | Responsable | ____ |
@@ -48,7 +48,7 @@ formularios).
 | Alertas ZAP totales | ____ | ____ | ____ |
 | Alertas ZAP High | ____ | ____ | ____ |
 | Alertas ZAP Medium | ____ | ____ | ____ |
-| Vulnerabilidades npm (prod) | ____ | ____ | ____ |
+| Vulnerabilidades npm (prod) | 4 | 0 | −4 |
 | Hallazgos CodeQL | ____ | ____ | ____ |
 | Hallazgos corregidos | — | ____ | — |
 | Riesgos aceptados | — | ____ | — |
@@ -77,9 +77,9 @@ formularios).
 
 | ID | Herramienta | Categoría OWASP | Hallazgo / componente | Evidencia | Severidad | Impacto | Corrección | Re-escaneo | Estado |
 | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- |
-| H-01 | | | | | | | | | |
-| H-02 | | | | | | | | | |
-| H-03 | | | | | | | | | |
+| H-01 | `npm audit` (SCA) | A06 Vulnerable Components | `nodemailer` ≤ 10.1.3 | `docs/evidencias/npm-audit-inicial-backend.json` (GHSA-rcmh-qjqh-p98v, GHSA-p6gq-j5cr-w38f, entre otras) | Alta | Denegación de servicio en `addressparser`, lectura de archivos/SSRF y conflictos de interpretación de direcciones | Actualizado a `nodemailer@10.4.0` (commit `56960cd`) | `docs/evidencias/npm-audit-final-backend.json`: 0 vulnerabilidades | Corregido |
+| H-02 | `npm audit` (SCA) | A06 Vulnerable Components | `zod` < 4.6.6 | `docs/evidencias/npm-audit-inicial-backend.json` (GHSA-mrhx-c7xc-m3w5) | Alta | Agotamiento de memoria al validar colecciones sobredimensionadas | Actualizado a `zod@4.6.7`; los 39 tests siguen pasando (commit `56960cd`) | `docs/evidencias/npm-audit-final-backend.json`: 0 vulnerabilidades | Corregido |
+| H-03 | `npm audit` (SCA) | A06 Vulnerable Components | `react-router-dom` < 7.18.0 | `docs/evidencias/npm-audit-inicial-frontend.json` (GHSA-wrjc-x8rr-h8h6, GHSA-337j-9hxr-rhxg) | Media | Redirección abierta en `Link`/`useNavigate` e inyección de constructor en hidratación SSR (no usada por la SPA) | Actualizado a `react-router-dom@7.18.5` y build verificado (commit `56960cd`) | `docs/evidencias/npm-audit-final-frontend.json`: 0 vulnerabilidades | Corregido |
 | H-04 | | | | | | | | | |
 | H-05 | | | | | | | | | |
 | H-06 | | | | | | | | | |
@@ -150,18 +150,31 @@ arquitectura. **Deben confirmarse o descartarse con el reporte real** antes de c
 3. **DAST** manual contra la URL publicada, con reporte adjunto como artefacto.
 4. El despliegue en `main` depende de que CI (pruebas y build) termine correctamente.
 
+**Estado verificado el 9 de noviembre de 2026:** CI y Security (DevSecOps) en verde en `main` y
+`develop` (runs `42666618606`, `42666618593`, `42666580938` y `42666580966`). El SCA detectó 4
+vulnerabilidades en dependencias de producción (2 High en backend y 2 Moderate en frontend) y quedó
+en **0** tras actualizar `nodemailer`, `zod` y `react-router-dom` (commit `56960cd`). Los reportes
+iniciales y finales están en `docs/evidencias/`.
+
 ## 9. Conclusión
 
 > Redactar al finalizar el re-escaneo: qué se corrigió, qué queda pendiente, qué riesgo se aceptó y
 > por qué, y qué aprendizaje deja el ciclo DevSecOps aplicado.
 
+**Avance real (9 nov 2026):** el ciclo SCA ya está cerrado. `npm audit --omit=dev` pasó de 4
+vulnerabilidades (2 High y 2 Moderate) a 0, y el pipeline de seguridad quedó en verde en `main` y
+`develop`. Queda pendiente el re-escaneo DAST contra la URL pública de Render y completar las
+métricas de ZAP/CodeQL cuando el despliegue esté disponible.
+
 ## 10. Anexo de evidencias
 
 - [ ] `docs/evidencias/zap-inicial.html` y `.json`
 - [ ] `docs/evidencias/zap-final.html` y `.json`
-- [ ] `docs/evidencias/npm-audit-inicial.txt`
-- [ ] `docs/evidencias/npm-audit-final.txt`
+- [x] `docs/evidencias/npm-audit-inicial-backend.json`
+- [x] `docs/evidencias/npm-audit-inicial-frontend.json`
+- [x] `docs/evidencias/npm-audit-final-backend.json`
+- [x] `docs/evidencias/npm-audit-final-frontend.json`
 - [ ] Capturas de CodeQL (alertas y cierre)
 - [ ] Capturas de las pruebas manuales de la sección 5
 - [ ] Enlaces a los commits de corrección
-- [ ] Captura del pipeline en verde
+- [x] Pipeline CI y Security en verde: runs `42666618606`, `42666618593`, `42666580938` y `42666580966`
