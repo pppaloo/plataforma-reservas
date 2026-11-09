@@ -463,6 +463,10 @@ function FaqsTab() {
       <div className="section-heading">
         <h2>Preguntas del chatbot</h2>
       </div>
+      <p className="muted">
+        Estas respuestas alimentan al asistente generativo como contexto oficial. Si el proveedor
+        de IA no esta disponible, se usan como respaldo por reglas.
+      </p>
       <ErrorBox error={error} />
 
       <form className="card admin-form" onSubmit={submit}>

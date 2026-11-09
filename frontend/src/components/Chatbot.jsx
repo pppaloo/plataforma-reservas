@@ -2,7 +2,7 @@ import { useEffect, useRef, useState } from 'react';
 import { api } from '../api/client';
 
 const WELCOME =
-  'Hola, soy el asistente de ReservaPro. Puedo ayudarte con horarios, precios, reservas y contacto. ¿Que necesitas saber?';
+  'Hola, soy el asistente virtual de ReservaPro. Puedo conversar sobre bienestar y responder tus dudas de servicios, horarios, precios y reservas. ¿Que necesitas saber?';
 
 function getSessionId() {
   const key = 'reservapro_chat_session';
@@ -19,12 +19,37 @@ function getSessionId() {
 
 export default function Chatbot() {
   const [open, setOpen] = useState(false);
+  const [mode, setMode] = useState('rules');
   const [messages, setMessages] = useState([{ role: 'bot', text: WELCOME }]);
   const [suggestions, setSuggestions] = useState(['Horarios', 'Precios', 'Reservas']);
   const [input, setInput] = useState('');
   const [busy, setBusy] = useState(false);
   const [sessionId] = useState(getSessionId);
   const endRef = useRef(null);
+
+  useEffect(() => {
+    let active = true;
+    api
+      .chatWelcome()
+      .then((data) => {
+        if (!active) return;
+        if (data.mode === 'llm' || data.mode === 'rules') setMode(data.mode);
+        if (data.reply) {
+          setMessages((current) =>
+            current.length === 1 ? [{ role: 'bot', text: data.reply }] : current
+          );
+        }
+        if (Array.isArray(data.suggestions) && data.suggestions.length) {
+          setSuggestions(data.suggestions.slice(0, 4));
+        }
+      })
+      .catch(() => {
+        // Si falla la consulta inicial se mantiene el mensaje local.
+      });
+    return () => {
+      active = false;
+    };
+  }, []);
 
   useEffect(() => {
     if (open) endRef.current?.scrollIntoView({ behavior: 'smooth' });
@@ -40,8 +65,13 @@ export default function Chatbot() {
 
     try {
       const data = await api.chat({ message: clean, sessionId });
-      setMessages((current) => [...current, { role: 'bot', text: data.reply }]);
-      const next = data.matched ? [] : data.suggestions || [];
+      setMessages((current) => [
+        ...current,
+        { role: 'bot', text: data.reply, source: data.source },
+      ]);
+      // Con IA generativa la conversacion puede seguir; con reglas se ofrecen
+      // sugerencias solo cuando no hubo coincidencia.
+      const next = data.source === 'llm' || data.matched ? [] : data.suggestions || [];
       setSuggestions(next.slice(0, 4));
     } catch (error) {
       setMessages((current) => [
@@ -71,7 +101,9 @@ export default function Chatbot() {
           <header className="chat-header">
             <div>
               <strong>Asistente ReservaPro</strong>
-              <small>Respuestas automaticas</small>
+              <small>
+                {mode === 'llm' ? 'Asistente generativo con IA' : 'Respuestas automaticas'}
+              </small>
             </div>
             <button
               type="button"
@@ -87,6 +119,7 @@ export default function Chatbot() {
             {messages.map((message, index) => (
               <div key={index} className={`chat-bubble ${message.role}`}>
                 {message.text}
+                {message.source === 'llm' && <span className="chat-tag">IA</span>}
               </div>
             ))}
             {busy && <div className="chat-bubble bot">Escribiendo...</div>}

@@ -41,7 +41,7 @@ mongosh "CADENA_DE_CONEXION" --eval "db.runCommand({ ping: 1 })"
 1. Subir el repositorio a GitHub.
 2. En Render: **New → Blueprint** y seleccionar el repositorio.
 3. Render detecta `render.yaml` y solicita los valores marcados con `sync: false`:
-   `MONGODB_URI`, `ADMIN_EMAIL`, `ADMIN_PASSWORD`, `SMTP_*`, `MAIL_*`.
+   `MONGODB_URI`, `ADMIN_EMAIL`, `ADMIN_PASSWORD`, `SMTP_*`, `MAIL_*`, `LLM_API_KEY`.
 4. Confirmar. El build ejecuta:
 
 ```
@@ -73,6 +73,26 @@ npm start --prefix backend
 | `SMTP_HOST` / `SMTP_PORT` / `SMTP_USER` / `SMTP_PASS` | Proveedor de correo |
 | `MAIL_FROM` | Remitente verificado |
 | `MAIL_INSTITUTIONAL_TO` | Buzón que recibe las solicitudes |
+| `LLM_API_KEY` | Clave del proveedor generativo (obligatoria para el chatbot con IA) |
+| `LLM_BASE_URL` | `https://api.openai.com/v1` u otro proveedor compatible |
+| `LLM_MODEL` | Modelo, por ejemplo `gpt-4o-mini` |
+
+### Chatbot generativo
+
+El asistente usa un proveedor **compatible con la API de OpenAI**. La clave se configura solo en el
+servidor y nunca se envía al navegador.
+
+| Proveedor | `LLM_BASE_URL` | Ejemplo de `LLM_MODEL` |
+| --- | --- | --- |
+| OpenAI | `https://api.openai.com/v1` | `gpt-4o-mini` |
+| Groq | `https://api.groq.com/openai/v1` | `llama-3.3-70b-versatile` |
+| Google Gemini | `https://generativelanguage.googleapis.com/v1beta/openai/` | `gemini-2.0-flash` |
+| OpenRouter | `https://openrouter.ai/api/v1` | `openai/gpt-4o-mini` |
+
+Verificación: `GET /api/chatbot/welcome` debe responder `"mode":"llm"`. Si responde `"rules"`, falta
+la clave o el proveedor no está configurado. Para controlar costos se limita el largo del mensaje, el
+tope de tokens, el tiempo de espera y la frecuencia por IP; además el modelo solo recibe información
+pública del negocio y el texto de la conversación.
 
 `CLIENT_ORIGIN` es opcional: si no se define, se usa `RENDER_EXTERNAL_URL` automáticamente para CORS.
 
@@ -117,7 +137,8 @@ node -e "require('dotenv').config(); const m=require('mongoose'); const b=requir
 | Autorización | Con sesión de cliente abrir `/admin` | Mensaje de permisos; API responde 403 |
 | Reserva | Reservar una hora | Registro visible en “Mis reservas” y en el panel |
 | Contacto | Enviar formulario | Registro en panel + dos correos |
-| Chatbot | Preguntar “¿Cuál es el horario?” | Respuesta desde MongoDB |
+| Chatbot | Preguntar “¿Cuál es el horario?” y luego algo general (“¿cómo duermo mejor?”) | Respuesta con datos de MongoDB y respuesta generativa; `source` indica `llm` o `rules` |
+| Modo del chatbot | `curl https://TU-APP.onrender.com/api/chatbot/welcome` | `"mode":"llm"` si la clave está configurada |
 | Base de datos | Atlas → Browse Collections | Documentos creados |
 | Secretos | Buscar en GitHub | Sin `.env`, claves ni tokens |
 
@@ -163,6 +184,7 @@ hallazgo solo para “dejar el pipeline en verde”.
 | El primer acceso tarda ~50 s | Cold start de Render Free | Esperar o usar plan pago |
 | ZAP falla por timeout | Servicio dormido | Precalentar la URL antes del escaneo |
 | Correos no llegan | SMTP mal configurado o remitente no verificado | Revisar logs y proveedor |
+| El chatbot responde con reglas y no con IA | Falta `LLM_API_KEY`, proveedor caído o timeout | Revisar variables y logs `[llm]`; el respaldo mantiene el servicio operativo |
 | `npm ci` falla en Render | Falta `package-lock.json` | Commitear los lockfiles |
 
 ## 9. Entrega en EVA

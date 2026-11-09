@@ -3,7 +3,9 @@ const mongoose = require('mongoose');
 const messageSchema = new mongoose.Schema(
   {
     role: { type: String, enum: ['bot', 'user'], required: true },
-    text: { type: String, required: true, maxlength: 500 },
+    text: { type: String, required: true, maxlength: 1200 },
+    // Origen de la respuesta del bot: IA generativa, reglas o respaldo.
+    source: { type: String, enum: ['llm', 'rules', 'fallback'] },
     at: { type: Date, default: Date.now },
   },
   { _id: false }

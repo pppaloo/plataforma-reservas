@@ -30,7 +30,7 @@ La plataforma resuelve tres problemas concretos:
 - Reservas con validación de fecha, cupos y capacidad del servicio.
 - Panel administrativo con seis módulos.
 - Formulario de contacto con dos correos y registro en MongoDB.
-- Chatbot por reglas administrable.
+- Chatbot generativo con contexto administrable (FAQ y servicios) y respaldo por reglas.
 - Enlaces de redes sociales administrables.
 - Pipeline CI/CD y análisis de seguridad.
 
@@ -39,7 +39,8 @@ La plataforma resuelve tres problemas concretos:
 - Pasarela de pagos real. El precio se muestra, pero el pago se coordina presencialmente.
 - Recuperación de contraseña por correo (se documenta como trabajo futuro).
 - Notificaciones push o por SMS.
-- Integración con IA generativa en el chatbot (opcional según el certamen).
+- Chatbot con acceso a datos de usuarios o capacidad de ejecutar acciones (el modelo solo recibe
+  información pública del negocio y el texto de la conversación).
 
 ## 4. Arquitectura
 
@@ -78,7 +79,7 @@ La plataforma resuelve tres problemas concretos:
 | API REST | Reglas de negocio, autorización, validación y persistencia |
 | MongoDB Atlas | Persistencia NoSQL con usuario de mínimo privilegio |
 | Nodemailer | Notificación institucional y confirmación al cliente |
-| Motor de chatbot | Coincidencia por palabras clave sobre las FAQ almacenadas |
+| Asistente generativo | LLM compatible con OpenAI; recibe FAQ y servicios como contexto y usa reglas como respaldo |
 | GitHub Actions | CI, SAST, SCA, DAST y CD |
 | Render | Hosting HTTPS del servicio único (API + build) |
 
@@ -105,7 +106,7 @@ La plataforma resuelve tres problemas concretos:
 | Refresh token rotativo con hash en BD | JWT de refresh sin estado | Permite revocar sesiones y detectar reutilización |
 | bcrypt (12 rondas) | SHA-256 simple | Hash adaptativo, lento por diseño, con sal incorporada |
 | Zod en el servidor | Solo validación HTML | La validación del cliente se puede saltar |
-| Chatbot por reglas en MongoDB | API de IA | Sin costos, sin claves externas y con respuestas auditables |
+| LLM externo con contexto curado | Solo reglas / IA sin contexto | Permite responder preguntas generales sin inventar datos del negocio; menor costo y latencia que un modelo propio, con respaldo por reglas si el proveedor falla |
 | Mongoose `sanitizeFilter` | Confiar en el tipado | Bloquea operadores como `$ne` inyectados |
 | Baja lógica de servicios | Borrado físico | Conserva la integridad del historial de reservas |
 
@@ -118,6 +119,7 @@ La plataforma resuelve tres problemas concretos:
 | Rendimiento | Índices en las consultas frecuentes; límite de 100 kb por cuerpo |
 | Mantenibilidad | Separación por capas y modelos; variables de entorno |
 | Observabilidad | Logs de peticiones y errores sin datos sensibles |
+| Tolerancia a fallos | Si el proveedor LLM falla o no hay clave, el chatbot responde con el motor de reglas |
 | Usabilidad | Diseño responsivo y mensajes de error claros |
 
 ## 8. Modelo de despliegue

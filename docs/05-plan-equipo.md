@@ -57,11 +57,12 @@ integrante debe poder explicar al menos una decisión del módulo de otro.
 - [ ] Diseño responsivo en móvil y escritorio.
 - [ ] Registro, login, mis reservas y rutas protegidas.
 - [ ] Formulario de contacto con validación y mensajes claros.
-- [ ] Chatbot con bienvenida, sugerencias, fallback y registro.
+- [ ] Chatbot generativo con bienvenida, sugerencias, contexto de FAQ/servicios, fallback y registro.
 - [ ] Panel para administrar FAQ y redes.
 - [ ] Correos: institucional + confirmación (plantillas escapadas).
 
-**Terminado cuando:** los dos correos llegan y el chatbot responde desde MongoDB.
+**Terminado cuando:** los dos correos llegan y el chatbot responde con IA usando datos de MongoDB
+(y cae a reglas si el proveedor falla).
 
 ### PT-4 · DevOps y DevSecOps (Benjamín + Paloma)
 
@@ -86,7 +87,7 @@ integrante debe poder explicar al menos una decisión del módulo de otro.
 | 5 | Estructura y administración de la BD | Atlas → Browse Collections → índices | colecciones, referencias, índices y usuario con mínimo privilegio |
 | 6 | Enviar formulario y comprobar registro y correos | `/contacto` → panel → buzones | dos correos y `emailStatus`; rate limit si se repite |
 | 7 | Modificar un enlace de red social | Panel → Redes → editar/activar | el sitio público refleja el cambio sin recompilar |
-| 8 | Interactuar con el chatbot y administrar FAQ | Widget → Panel → Chatbot | coincidencia por palabras clave y fallback; persistencia de la conversación |
+| 8 | Interactuar con el chatbot y administrar FAQ | Widget → Panel → Chatbot | respuesta generativa con FAQ/servicios como contexto, `source` (`llm`/`rules`), fallback y persistencia |
 | 9 | Repositorio y pipeline CI/CD | GitHub → Actions | CI en verde, CD en `main`, ramas y PR |
 | 10 | Resultado del análisis de vulnerabilidades | Informe + artefacto ZAP | herramientas, severidades y alcance autorizado |
 | 11 | Explicar una vulnerabilidad, impacto y solución | Ejemplo H-01 | causa, riesgo y commit de corrección |
@@ -149,6 +150,14 @@ integrante debe poder explicar al menos una decisión del módulo de otro.
     innecesarios.
 14. **¿Por qué el formulario no permite elegir el destinatario?**
     Para evitar que se use como relay de spam. El buzón institucional está fijo en configuración.
+15. **¿Cómo funciona el chatbot generativo?**
+    El backend arma un contexto con las FAQ activas y el catálogo de servicios, lo envía a un
+    proveedor compatible con OpenAI y devuelve la respuesta. El navegador nunca ve la clave. Si el
+    proveedor falla o falta la clave, responde el motor de reglas y se registra `source`.
+16. **¿Cómo mitigan prompt injection y fuga de datos?**
+    El texto del usuario viaja como mensaje separado, el contexto va delimitado como datos, el
+    sistema instruye ignorar cambios de rol, no se envían datos personales ni secretos, se limita el
+    largo de entrada/salida, hay timeout y rate limiting, y la clave solo existe en el servidor.
 
 ## 6. Checklist de entrega en EVA
 

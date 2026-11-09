@@ -54,6 +54,15 @@ const env = {
     from: process.env.MAIL_FROM || 'ReservaPro <no-reply@reservapro.local>',
     institutionalTo: process.env.MAIL_INSTITUTIONAL_TO || 'contacto@reservapro.local',
   },
+  // Proveedor compatible con la API de OpenAI (OpenAI, Groq, Gemini, OpenRouter, Ollama...).
+  // Si no hay clave, el chatbot degrada al motor de reglas.
+  llm: {
+    apiKey: process.env.LLM_API_KEY || '',
+    baseUrl: process.env.LLM_BASE_URL || 'https://api.openai.com/v1',
+    model: process.env.LLM_MODEL || 'gpt-4o-mini',
+    temperature: Number(process.env.LLM_TEMPERATURE || 0.4),
+    maxTokens: Number(process.env.LLM_MAX_TOKENS || 320),
+  },
   admin: {
     name: process.env.ADMIN_NAME || 'Administrador',
     email: process.env.ADMIN_EMAIL || 'admin@reservapro.cl',
@@ -79,6 +88,11 @@ function validateEnvironment() {
   }
   if (process.env.JWT_ACCESS_SECRET === process.env.JWT_REFRESH_SECRET) {
     throw new Error('JWT_ACCESS_SECRET y JWT_REFRESH_SECRET deben ser distintos.');
+  }
+  // La clave del proveedor LLM viaja en cada peticion: exigir HTTPS fuera de localhost.
+  const llmBaseUrl = process.env.LLM_BASE_URL || 'https://api.openai.com/v1';
+  if (process.env.LLM_API_KEY && !llmBaseUrl.startsWith('https://')) {
+    throw new Error('LLM_BASE_URL debe usar HTTPS en produccion.');
   }
 }
 

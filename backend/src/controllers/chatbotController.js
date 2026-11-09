@@ -1,5 +1,6 @@
 const crypto = require('crypto');
 const Faq = require('../models/Faq');
+const Service = require('../models/Service');
 const Conversation = require('../models/Conversation');
 const ApiError = require('../utils/ApiError');
 const asyncHandler = require('../utils/asyncHandler');
@@ -8,17 +9,55 @@ const {
   buildSuggestions,
   FALLBACK_ANSWER,
 } = require('../services/chatbot');
+const { generateReply, isConfigured } = require('../services/llm');
 
 const WELCOME =
-  'Hola, soy el asistente de ReservaPro. Puedo ayudarte con horarios, precios, reservas y formas de contacto. ¿Que necesitas saber?';
+  'Hola, soy el asistente virtual de ReservaPro. Puedo conversar sobre bienestar y responder tus dudas de servicios, horarios, precios y reservas. ¿Que necesitas saber?';
+
+// Contexto oficial para el modelo: evita que invente datos del negocio.
+function buildContext(faqs, services) {
+  const faqBlock = faqs
+    .slice(0, 12)
+    .map((faq) => `- ${faq.question} ${faq.answer}`)
+    .join('\n')
+    .slice(0, 2800);
+
+  const serviceBlock = services
+    .slice(0, 12)
+    .map(
+      (service) =>
+        `- ${service.name}: ${service.description} Duracion ${service.durationMin} minutos. Valor $${service.price} CLP. Cupos por horario: ${service.capacity}.`
+    )
+    .join('\n')
+    .slice(0, 2200);
+
+  return `Preguntas frecuentes:\n${faqBlock || 'Sin datos.'}\n\nServicios:\n${
+    serviceBlock || 'Sin datos.'
+  }`;
+}
 
 const message = asyncHandler(async (req, res) => {
   const sessionId = req.body.sessionId || crypto.randomUUID();
   const userMessage = req.body.message;
 
-  const faqs = await Faq.find({ active: true }).lean();
+  const [faqs, services, conversation] = await Promise.all([
+    Faq.find({ active: true }).sort({ order: 1 }).lean(),
+    Service.find({ active: true }).sort({ order: 1 }).lean(),
+    Conversation.findOne({ sessionId }).lean(),
+  ]);
+
   const match = findBestAnswer(userMessage, faqs);
-  const reply = match ? match.answer : FALLBACK_ANSWER;
+  const history = (conversation?.messages || []).slice(-8);
+
+  // Camino principal: respuesta generativa con contexto de la base de datos.
+  const generated = await generateReply({
+    message: userMessage,
+    history,
+    context: buildContext(faqs, services),
+  });
+
+  const reply = generated || (match ? match.answer : FALLBACK_ANSWER);
+  const source = generated ? 'llm' : match ? 'rules' : 'fallback';
 
   await Conversation.findOneAndUpdate(
     { sessionId },
@@ -27,7 +66,7 @@ const message = asyncHandler(async (req, res) => {
         messages: {
           $each: [
             { role: 'user', text: userMessage, at: new Date() },
-            { role: 'bot', text: reply, at: new Date() },
+            { role: 'bot', text: reply, source, at: new Date() },
           ],
           // Se conservan solo los ultimos 40 mensajes por sesion.
           $slice: -40,
@@ -44,13 +83,19 @@ const message = asyncHandler(async (req, res) => {
     sessionId,
     reply,
     matched: Boolean(match),
+    source,
     suggestions: buildSuggestions(faqs),
   });
 });
 
 const welcome = asyncHandler(async (_req, res) => {
   const faqs = await Faq.find({ active: true }).lean();
-  res.json({ ok: true, reply: WELCOME, suggestions: buildSuggestions(faqs) });
+  res.json({
+    ok: true,
+    reply: WELCOME,
+    mode: isConfigured() ? 'llm' : 'rules',
+    suggestions: buildSuggestions(faqs),
+  });
 });
 
 const listFaqs = asyncHandler(async (_req, res) => {

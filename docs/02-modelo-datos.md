@@ -93,7 +93,7 @@ Base de datos: **MongoDB Atlas**, base `reservas`. Acceso mediante Mongoose 8 co
 | Campo | Tipo | Restricciones |
 | --- | --- | --- |
 | `sessionId` | String | requerido, único, generado en el navegador |
-| `messages` | Array embebido | `{ role: bot/user, text, at }` |
+| `messages` | Array embebido | `{ role: bot/user, text, source: llm/rules/fallback, at }` |
 | `lastActivityAt` | Date | índice para limpieza |
 
 Índices: `sessionId` (único), `lastActivityAt`. Los mensajes se limitan a los últimos 40 por sesión.

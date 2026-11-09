@@ -6,6 +6,7 @@ const { hashPassword } = require('../src/utils/password');
 const User = require('../src/models/User');
 const Service = require('../src/models/Service');
 const ContactRequest = require('../src/models/ContactRequest');
+const Conversation = require('../src/models/Conversation');
 
 // Se ejecuta solo si existe una base de pruebas disponible (CI o MongoDB local).
 const TEST_URI = process.env.TEST_MONGODB_URI;
@@ -193,6 +194,49 @@ describeIfDb('Flujo integrado con base de datos', () => {
     expect(res.status).toBe(200);
     expect(res.body.matched).toBe(true);
     expect(res.body.reply).toContain('08:00');
+  });
+
+  test('el chatbot usa IA generativa cuando hay proveedor configurado', async () => {
+    const originalFetch = global.fetch;
+    process.env.LLM_API_KEY = 'clave-de-prueba';
+    process.env.LLM_BASE_URL = 'https://llm.example/v1';
+    process.env.LLM_MODEL = 'modelo-prueba';
+    global.fetch = jest.fn().mockResolvedValue({
+      ok: true,
+      json: async () => ({
+        choices: [
+          {
+            message: {
+              content: 'Dormir mejor requiere una rutina constante y menos pantallas.',
+            },
+          },
+        ],
+      }),
+    });
+
+    try {
+      const res = await request(app)
+        .post('/api/chatbot/message')
+        .send({
+          message: 'Que me recomiendas para dormir mejor?',
+          sessionId: 'sesion-generativa-01',
+        });
+
+      expect(res.status).toBe(200);
+      expect(res.body.source).toBe('llm');
+      expect(res.body.reply).toContain('Dormir mejor');
+
+      const conversation = await Conversation.findOne({
+        sessionId: 'sesion-generativa-01',
+      }).lean();
+      expect(conversation.messages.at(-1).source).toBe('llm');
+      expect(global.fetch).toHaveBeenCalledTimes(1);
+    } finally {
+      global.fetch = originalFetch;
+      delete process.env.LLM_API_KEY;
+      delete process.env.LLM_BASE_URL;
+      delete process.env.LLM_MODEL;
+    }
   });
 
   test('el refresh rota el token y el anterior queda revocado', async () => {

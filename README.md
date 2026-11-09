@@ -2,7 +2,7 @@
 
 Plataforma web full stack para la gestión de reservas de un centro de bienestar. Incluye
 autenticación JWT, control de acceso por roles, panel administrativo, formulario de contacto con
-envío de correos, redes sociales administrables, chatbot de preguntas frecuentes, pipeline CI/CD y
+envío de correos, redes sociales administrables, chatbot generativo con contexto del negocio, pipeline CI/CD y
 análisis de seguridad DevSecOps.
 
 **Certamen práctico integrador — Desarrollo Web Seguro · DevOps · DevSecOps**
@@ -19,11 +19,12 @@ análisis de seguridad DevSecOps.
 
 | Capa | Tecnología |
 | --- | --- |
-| Frontend | React 18 + Vite + React Router |
+| Frontend | React 18 + Vite + React Router; tipografía Manrope self-hosted |
 | Backend | Node.js + Express 4 |
 | Base de datos | MongoDB Atlas + Mongoose 8 |
 | Autenticación | JWT (access + refresh) + bcrypt |
 | Correo | Nodemailer (SMTP) |
+| Chatbot | LLM compatible con OpenAI + FAQ/servicios como contexto |
 | Validación | Zod (servidor) + validación HTML/JS (cliente) |
 | Seguridad | Helmet, CORS restringido, rate limiting, sanitización NoSQL |
 | CI/CD | GitHub Actions + Render |
@@ -41,7 +42,9 @@ análisis de seguridad DevSecOps.
   mensajes de contacto.
 - Formulario de contacto con doble validación, registro en MongoDB y dos correos (institucional y
   confirmación al cliente).
-- Chatbot por reglas alimentado desde MongoDB, con fallback y registro de conversaciones.
+- Chatbot generativo (proveedor compatible con OpenAI) que conversa sobre bienestar y responde con
+  las FAQ y los servicios como contexto oficial. Si el proveedor falla, degrada a un motor de reglas
+  y registra el origen de cada respuesta.
 - Enlaces de redes sociales administrables sin tocar código.
 - Pipeline CI (pruebas + build), CD (deploy hook de Render) y workflow de seguridad.
 
@@ -87,6 +90,12 @@ Todas se definen en `backend/.env` (ver `backend/.env.example`). Nunca se versio
 | `CLIENT_ORIGIN` | No | Orígenes permitidos por CORS, separados por coma |
 | `COOKIE_SAMESITE` | No | `lax` (mismo dominio) o `none` (dominios distintos con HTTPS) |
 | `SMTP_*`, `MAIL_*` | No | Si faltan, los correos se omiten y queda el registro en MongoDB |
+| `LLM_API_KEY` | No* | Clave del proveedor generativo; sin ella el chatbot usa reglas |
+| `LLM_BASE_URL` | No | URL compatible con OpenAI (por defecto `https://api.openai.com/v1`) |
+| `LLM_MODEL` | No | Modelo a usar (por defecto `gpt-4o-mini`) |
+| `LLM_TEMPERATURE` / `LLM_MAX_TOKENS` | No | Creatividad y largo máximo de la respuesta |
+
+\* Para cumplir el requisito de respuestas generativas debe configurarse `LLM_API_KEY`.
 | `ADMIN_*` | No | Credenciales usadas por `npm run seed` |
 
 Generar secretos:
@@ -116,8 +125,8 @@ node -e "console.log(require('crypto').randomBytes(48).toString('hex'))"
 | GET / PATCH | `/api/contact` | Admin | Listar y gestionar solicitudes |
 | GET | `/api/social` | Público | Enlaces activos (`?all=1` solo admin) |
 | POST / PATCH / DELETE | `/api/social/:id` | Admin | CRUD de redes |
-| GET | `/api/chatbot/welcome` | Público | Mensaje de bienvenida |
-| POST | `/api/chatbot/message` | Público | Consulta al chatbot |
+| GET | `/api/chatbot/welcome` | Público | Bienvenida y modo (`llm` o `rules`) |
+| POST | `/api/chatbot/message` | Público | Consulta al chatbot generativo |
 | GET | `/api/chatbot/faqs` | Admin | Listar FAQ |
 | POST / PATCH / DELETE | `/api/chatbot/faqs/:id` | Admin | CRUD de FAQ |
 | GET | `/api/users` | Admin | Listar usuarios |
@@ -143,6 +152,9 @@ incluyen trazas ni detalles internos.
   `Permissions-Policy`, `frame-ancestors 'none'`.
 - **CORS**: lista explícita de orígenes con credenciales; nunca `*`.
 - **Rate limiting**: global, login, registro, contacto y chatbot con límites diferenciados.
+- **Chatbot generativo**: la clave del proveedor vive solo en el servidor, el contexto se limita a
+  información pública del negocio, se aplican instrucciones contra prompt injection, timeout de 15 s
+  y tope de respuesta. No se envían datos personales ni credenciales al modelo.
 - **Secretos**: solo en variables de entorno; `.env` fuera del repositorio.
 - **Datos sensibles**: `passwordHash` y tokens de refresh usan `select: false` y se eliminan en
   `toJSON`.
@@ -181,7 +193,7 @@ plataforma-reservas/
 │  │  ├─ middleware/    auth, roles, validación, rate limit, errores
 │  │  ├─ models/        7 colecciones Mongoose
 │  │  ├─ routes/        definición de endpoints
-│  │  ├─ services/      correo y motor del chatbot
+│  │  ├─ services/      correo, IA generativa y respaldo por reglas
 │  │  ├─ utils/         JWT, bcrypt, helpers
 │  │  ├─ validators/    esquemas Zod
 │  │  ├─ app.js         configuración de Express
