@@ -1,0 +1,23 @@
+# Dependencias
+node_modules/
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+
+# Variables de entorno
+.env
+.env.*
+!.env.example
+
+# Build
+frontend/dist/
+backend/dist/
+
+# Logs y temporales
+*.log
+.DS_Store
+Thumbs.db
+
+# Evidencias locales opcionales
+docs/evidencias/*.html
+docs/evidencias/*.json

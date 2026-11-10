@@ -1,0 +1,48 @@
+services:
+  - type: web
+    name: reservapro
+    runtime: node
+    plan: free
+    region: oregon
+    buildCommand: npm ci --prefix backend && npm ci --prefix frontend && npm run build --prefix frontend
+    startCommand: npm start --prefix backend
+    healthCheckPath: /api/health
+    envVars:
+      - key: NODE_ENV
+        value: production
+      - key: MONGODB_URI
+        sync: false
+      - key: JWT_ACCESS_SECRET
+        generateValue: true
+      - key: JWT_REFRESH_SECRET
+        generateValue: true
+      - key: COOKIE_SAMESITE
+        value: lax
+      - key: ADMIN_EMAIL
+        sync: false
+      - key: ADMIN_PASSWORD
+        sync: false
+      - key: SMTP_HOST
+        sync: false
+      - key: SMTP_PORT
+        value: "587"
+      - key: SMTP_USER
+        sync: false
+      - key: SMTP_PASS
+        sync: false
+      - key: MAIL_FROM
+        sync: false
+      - key: MAIL_INSTITUTIONAL_TO
+        sync: false
+      - key: LLM_API_KEY
+        value: blockrun
+      - key: LLM_BASE_URL
+        value: https://blockrun.ai/api/v1
+      - key: LLM_MODEL
+        value: nvidia/nemotron-3.5-bolt
+      - key: LLM_TEMPERATURE
+        value: "0.4"
+      - key: LLM_MAX_TOKENS
+        value: "600"
+      - key: LLM_TIMEOUT_MS
+        value: "45000"
