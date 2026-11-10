@@ -35,8 +35,14 @@ services:
       - key: MAIL_INSTITUTIONAL_TO
         sync: false
       - key: LLM_API_KEY
-        sync: false
+        value: blockrun
       - key: LLM_BASE_URL
-        value: https://api.openai.com/v1
+        value: https://blockrun.ai/api/v1
       - key: LLM_MODEL
-        value: gpt-4o-mini
+        value: nvidia/nemotron-3.5-bolt
+      - key: LLM_TEMPERATURE
+        value: "0.4"
+      - key: LLM_MAX_TOKENS
+        value: "600"
+      - key: LLM_TIMEOUT_MS
+        value: "45000"

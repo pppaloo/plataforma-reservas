@@ -7,10 +7,13 @@
 //   LLM_MODEL        nombre del modelo, por ejemplo gpt-4o-mini
 //   LLM_TEMPERATURE  creatividad (0 a 2)
 //   LLM_MAX_TOKENS   maximo de tokens de la respuesta
+//   LLM_REASONING_EFFORT  opcional (low/medium/high) para modelos de razonamiento
 
 const { env } = require('../config/env');
 
-const TIMEOUT_MS = 15000;
+// Los proveedores gratuitos pueden tardar mas que una API paga. Si se agota el
+// tiempo, el controlador usa el motor de reglas como respaldo.
+const TIMEOUT_MS = Number(process.env.LLM_TIMEOUT_MS || 30000);
 const MAX_REPLY_CHARS = 900;
 const MAX_HISTORY_MESSAGES = 8;
 
@@ -35,6 +38,9 @@ function currentConfig() {
     model: String(process.env.LLM_MODEL || env.llm.model || '').trim(),
     temperature: Number(process.env.LLM_TEMPERATURE ?? env.llm.temperature ?? 0.4),
     maxTokens: Number(process.env.LLM_MAX_TOKENS ?? env.llm.maxTokens ?? 320),
+    reasoningEffort: String(
+      process.env.LLM_REASONING_EFFORT ?? env.llm.reasoningEffort ?? ''
+    ).trim(),
   };
 }
 
@@ -76,6 +82,16 @@ async function generateReply({ message, history = [], context = '' }) {
   const controller = new AbortController();
   const timeout = setTimeout(() => controller.abort(), TIMEOUT_MS);
 
+  const payload = {
+    model: config.model,
+    temperature: config.temperature,
+    max_tokens: config.maxTokens,
+    messages: buildMessages({ message, history, context }),
+  };
+  // Algunos modelos de razonamiento (por ejemplo GPT-OSS en Pollinations)
+  // generan una cadena interna muy larga. "low" mantiene la latencia baja.
+  if (config.reasoningEffort) payload.reasoning_effort = config.reasoningEffort;
+
   try {
     const response = await fetch(`${config.baseUrl}/chat/completions`, {
       method: 'POST',
@@ -83,12 +99,7 @@ async function generateReply({ message, history = [], context = '' }) {
         'Content-Type': 'application/json',
         Authorization: `Bearer ${config.apiKey}`,
       },
-      body: JSON.stringify({
-        model: config.model,
-        temperature: config.temperature,
-        max_tokens: config.maxTokens,
-        messages: buildMessages({ message, history, context }),
-      }),
+      body: JSON.stringify(payload),
       signal: controller.signal,
     });
 

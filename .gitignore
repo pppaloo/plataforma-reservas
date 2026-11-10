@@ -1,26 +1,23 @@
 # Dependencias
 node_modules/
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
 
-# Compilados
-dist/
-build/
-coverage/
-
-# Secretos y configuracion local
+# Variables de entorno
 .env
-.env.local
-.env.*.local
+.env.*
+!.env.example
+
+# Build
+frontend/dist/
+backend/dist/
 
 # Logs y temporales
 *.log
-npm-debug.log*
 .DS_Store
 Thumbs.db
 
-# Editores
-.vscode/
-.idea/
-
-# Reportes de escaneos (se guardan como evidencia en docs/, no en el repo raiz)
-zap-report.html
-zap-report.json
+# Evidencias locales opcionales
+docs/evidencias/*.html
+docs/evidencias/*.json

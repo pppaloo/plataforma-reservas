@@ -1,0 +1,676 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="description" content="Certamen práctico integrador de desarrollo web seguro, DevOps y DevSecOps.">
+<title>Certamen práctico integrador | Desarrollo Web Seguro y DevSecOps</title>
+<style>
+
+:root{
+  --ucsc-red:#c8102e;--ucsc-red-dark:#a20d25;--ink:#202833;--muted:#66717d;
+  --line:#e3e7ec;--soft:#f5f7f9;--soft-red:#fff3f5;--navy:#243746;
+  --white:#fff;--shadow:0 18px 55px rgba(23,35,48,.10)
+}
+*{box-sizing:border-box}
+html{scroll-behavior:smooth;scroll-padding-top:24px}
+body{margin:0;background:#edf0f4;color:var(--ink);font-family:Inter,ui-sans-serif,system-ui,-apple-system,"Segoe UI",Arial,sans-serif;line-height:1.65;font-size:15px}
+.page{max-width:1160px;margin:34px auto;background:#fff;box-shadow:var(--shadow);border-radius:14px;overflow:visible}
+header{padding:24px clamp(22px,5vw,64px);border-bottom:4px solid var(--ucsc-red);background:#fff}
+.brand{display:flex;align-items:center;gap:24px;min-height:76px}
+.brand img{width:210px;max-height:88px;object-fit:contain;object-position:left center}
+.brand-meta{margin-left:auto;text-align:right;color:var(--muted);font-size:11px;font-weight:700;letter-spacing:.12em;text-transform:uppercase;line-height:1.6}
+.hero{position:relative;padding:clamp(34px,5vw,58px) clamp(22px,5vw,64px) 42px;background:linear-gradient(120deg,#fff 0%,#fff 58%,#fff0f3 100%);overflow:hidden}
+.hero:after{content:"";position:absolute;width:290px;height:290px;border:34px solid rgba(200,16,46,.055);border-radius:50%;right:-110px;top:-135px;pointer-events:none}
+.kicker{font-size:11px;font-weight:800;letter-spacing:.16em;text-transform:uppercase;color:var(--ucsc-red)}
+h1{font-size:clamp(29px,4vw,43px);line-height:1.12;letter-spacing:-.035em;margin:12px 0 15px;color:var(--navy);max-width:850px}
+.subtitle{font-size:clamp(15px,2vw,18px);color:#56616d;max-width:850px;margin:0}
+.meta-grid{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:12px;margin-top:30px}
+.meta{border:1px solid #e6e8ec;border-radius:10px;padding:14px 16px;background:rgba(255,255,255,.9);box-shadow:0 3px 12px rgba(25,35,45,.035)}
+.meta small{display:block;color:var(--muted);font-size:10px;font-weight:800;text-transform:uppercase;letter-spacing:.09em;margin-bottom:5px}
+.meta strong{font-size:14px;color:var(--navy)}
+main{padding:12px clamp(22px,5vw,64px) 60px}
+.actions{display:flex;justify-content:flex-end;gap:10px;margin:18px 0 24px}
+button{border:0;border-radius:8px;padding:11px 16px;background:var(--ucsc-red);color:#fff;font-weight:750;font-size:13px;cursor:pointer;transition:transform .15s,background .15s}
+button:hover{background:var(--ucsc-red-dark);transform:translateY(-1px)}
+button.secondary{background:var(--navy)}
+button:focus-visible,a:focus-visible{outline:3px solid rgba(200,16,46,.3);outline-offset:3px}
+
+a{color:var(--ucsc-red-dark);text-decoration:none}
+a:hover{text-decoration:underline}
+section{margin:42px 0;scroll-margin-top:22px}
+h2{font-size:clamp(20px,2.5vw,24px);line-height:1.25;color:var(--navy);border-bottom:0;padding:0 0 12px;margin:0 0 18px;display:flex;align-items:center;gap:12px}
+h2:before{content:"";display:inline-block;width:5px;height:27px;border-radius:5px;background:var(--ucsc-red);flex:0 0 5px}
+h3{font-size:17px;line-height:1.35;color:var(--navy);margin:25px 0 10px}
+h4{font-size:14px;margin:18px 0 7px;color:var(--ucsc-red-dark)}
+p{margin:9px 0 13px}
+ul,ol{padding-left:23px}
+li{margin:6px 0}
+.callout{border-left:4px solid var(--ucsc-red);background:var(--soft-red);padding:16px 19px;margin:18px 0;border-radius:0 9px 9px 0}
+.note{border:1px solid var(--line);background:var(--soft);border-radius:10px;padding:16px 18px;margin:17px 0}
+.pill{display:inline-block;border-radius:30px;padding:3px 9px;font-size:10px;font-weight:800;letter-spacing:.04em;background:var(--soft-red);color:var(--ucsc-red-dark);margin-left:7px;vertical-align:middle}
+table{width:100%;border-collapse:separate;border-spacing:0;margin:16px 0 22px;font-size:13px;border:1px solid var(--line);border-radius:10px;overflow:hidden}
+th{background:var(--navy);color:#fff;text-align:left;font-weight:750;letter-spacing:.01em}
+th,td{padding:12px 14px;border-right:1px solid var(--line);border-bottom:1px solid var(--line);vertical-align:top}
+th:last-child,td:last-child{border-right:0}
+tbody tr:last-child td{border-bottom:0}
+tbody tr:nth-child(even){background:#f8f9fb}
+tbody tr:hover{background:#fff7f8}
+.points{text-align:center;font-weight:800;white-space:nowrap}
+.rubric-total{background:#fff0f3!important;font-weight:800}
+.arch{display:grid;grid-template-columns:1fr;gap:6px;max-width:700px;margin:22px auto}
+.arch div{padding:14px 18px;text-align:center;border:1px solid #f0c4cc;border-radius:9px;background:#fff9fa}
+.arch b{display:block;color:var(--ucsc-red-dark)}
+.arch small{color:var(--muted)}
+.arch .arrow{text-align:center;border:0;background:none;padding:0;color:var(--ucsc-red);font-size:21px;line-height:1}
+.checklist{list-style:none;padding:0}
+.checklist li{padding-left:27px;position:relative;margin:8px 0}
+.checklist li:before{content:"□";position:absolute;left:2px;top:0;color:var(--ucsc-red);font-size:19px;font-weight:bold}
+footer{border-top:1px solid var(--line);padding:24px clamp(22px,5vw,64px) 30px;color:var(--muted);font-size:11px;display:flex;justify-content:space-between;gap:20px;background:#fbfcfd}
+footer strong{color:var(--navy)}
+
+/* Navegación lateral */
+main{padding:12px clamp(22px,4vw,54px) 60px}
+.content-layout{display:grid;grid-template-columns:255px minmax(0,1fr);gap:34px;align-items:start}
+.side-nav{scrollbar-width:thin;scrollbar-color:#aab2bb transparent;
+  position:sticky;top:18px;align-self:start;margin:0;padding:18px 15px;
+  border:1px solid var(--line);border-radius:12px;background:#fafbfc;
+  box-shadow:0 5px 18px rgba(25,35,45,.045);max-height:calc(100vh - 36px);
+  overflow-y:auto
+}
+.nav-heading{padding:2px 8px 14px;border-bottom:1px solid var(--line);margin-bottom:11px}
+.nav-kicker{display:block;font-size:9px;font-weight:800;letter-spacing:.14em;text-transform:uppercase;color:var(--ucsc-red);margin-bottom:5px}
+.side-nav strong{display:block;color:var(--navy);font-size:14px;line-height:1.3}
+.side-nav ul{columns:1;list-style:none;padding:0;margin:0}
+.side-nav li{margin:3px 0}
+.side-nav li a{
+  display:block;padding:8px 9px;border-radius:7px;color:#4d5965;
+  font-size:12px;line-height:1.35;border-left:3px solid transparent;
+  transition:background .15s,color .15s,border-color .15s
+}
+.side-nav li a:hover{background:#fff0f3;color:var(--ucsc-red-dark);text-decoration:none;border-left-color:var(--ucsc-red)}
+.nav-footer{border-top:1px solid var(--line);margin-top:13px;padding:12px 8px 2px;color:var(--muted);font-size:10px}
+.nav-dot{display:inline-block;width:7px;height:7px;background:var(--ucsc-red);border-radius:50%;margin-right:6px}
+.document-content{min-width:0}
+.document-content section:first-child{margin-top:8px}
+.document-content section{scroll-margin-top:22px}
+@media(max-width:1000px){
+ .side-nav{scrollbar-width:thin;scrollbar-color:#aab2bb transparent;left:12px;width:218px;padding:14px 10px}
+ .side-nav li a{font-size:11px;padding:7px}
+ .document-content{margin-left:242px}
+}
+@media(max-width:700px){
+ .side-nav{scrollbar-width:thin;scrollbar-color:#aab2bb transparent;
+   left:0;right:0;top:0;width:100%;height:auto;max-height:34vh;
+   border-radius:0 0 12px 12px;border-top:0;overflow-y:auto;
+   box-shadow:0 5px 18px rgba(25,35,45,.12)
+ }
+ .side-nav ul{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:2px 8px}
+ .side-nav li a{font-size:12px;padding:7px}
+ .nav-footer{display:none}
+ .document-content{margin-left:0;padding-top:calc(34vh + 18px)}
+ .document-content section:first-child{margin-top:10px}
+}
+@media(max-width:430px){
+ .side-nav ul{grid-template-columns:1fr}
+ .side-nav{scrollbar-width:thin;scrollbar-color:#aab2bb transparent;max-height:38vh}
+ .document-content{padding-top:calc(38vh + 16px)}
+}
+@media print{
+ main{padding-top:0}
+ .content-layout{display:block;overflow:visible;transform:none;contain:none}
+ .side-nav{scrollbar-width:thin;scrollbar-color:#aab2bb transparent;display:none}
+ .document-content{width:100%}
+}
+
+@media(max-width:800px){
+ .page{margin:0 auto;border-radius:0}
+ .meta-grid{grid-template-columns:repeat(2,minmax(0,1fr))}
+}
+@media(max-width:600px){
+ body{font-size:14px}
+ header{padding-top:20px;padding-bottom:18px}
+ .brand{align-items:flex-start;flex-direction:column;gap:9px}
+ .brand img{width:175px;max-height:75px}
+ .brand-meta{margin:0;text-align:left}
+ .hero{padding-top:32px;padding-bottom:30px}
+ .meta-grid{gap:8px}
+ .meta{padding:11px 12px}
+ .meta strong{font-size:13px}
+ main{padding-top:4px}
+ .actions{justify-content:stretch;flex-direction:column}
+ .actions button{width:100%}
+ nav{padding:16px}
+ .side-nav ul{columns:1}
+ section{margin:34px 0}
+ table{display:block;overflow-x:auto;white-space:normal;font-size:12px}
+ th,td{padding:9px 10px;min-width:110px}
+ th:first-child,td:first-child{min-width:130px}
+ footer{flex-direction:column}
+}
+@media print{
+ @page{size:A4;margin:14mm}
+ body{background:#fff;font-size:10pt}
+ .page{margin:0;max-width:none;box-shadow:none;border-radius:0;overflow:visible}
+ header,.hero,main,footer{padding-left:0;padding-right:0}
+ .actions,.side-nav{scrollbar-width:thin;scrollbar-color:#aab2bb transparent;display:none}
+ section{margin:24px 0;break-inside:auto}
+ h2,h3{break-after:avoid}
+ table{font-size:8.5pt;break-inside:auto}
+ tr{break-inside:avoid}
+ a{color:inherit;text-decoration:none}
+ .hero:after{display:none}
+}
+
+
+
+
+/* Corrección de composición: reservar espacio real para el menú lateral */
+@media screen and (min-width:701px){
+  body{overflow-x:hidden}
+  body .page{
+    width:calc(100% - 292px) !important;
+    max-width:1160px !important;
+    margin:24px 18px 24px 274px !important;
+    overflow:visible !important;
+  }
+  body .page header,
+  body .page .hero,
+  body .page main,
+  body .page footer{
+    position:relative;
+    min-width:0;
+  }
+  body .page main{padding-left:clamp(22px,4vw,54px);padding-right:clamp(22px,4vw,54px)}
+  body .page main .content-layout{display:block !important;margin:0 !important;padding:0 !important}
+  body .page main .content-layout > .side-nav{scrollbar-width:thin;scrollbar-color:#aab2bb transparent;
+    position:fixed !important;
+    top:18px !important;
+    left:12px !important;
+    width:238px !important;
+    height:calc(100vh - 36px) !important;
+    max-height:calc(100vh - 36px) !important;
+    overflow-y:auto !important;
+    z-index:99999 !important;
+    margin:0 !important;
+    transform:none !important;
+  }
+  body .page main .content-layout > .document-content{
+    margin:0 !important;
+    padding:0 !important;
+    min-width:0 !important;
+  }
+}
+@media screen and (max-width:700px){
+  body{overflow-x:hidden}
+  body .page{
+    width:100% !important;
+    max-width:none !important;
+    margin:0 !important;
+    border-radius:0 !important;
+    overflow:visible !important;
+  }
+  body .page main .content-layout{display:flex !important;flex-direction:column !important;gap:18px !important}
+  body .page main .content-layout > .side-nav{scrollbar-width:thin;scrollbar-color:#aab2bb transparent;
+    position:sticky !important;
+    top:0 !important;
+    left:auto !important;
+    right:auto !important;
+    width:100% !important;
+    height:auto !important;
+    max-height:32vh !important;
+    overflow-y:auto !important;
+    z-index:100 !important;
+    margin:0 !important;
+    transform:none !important;
+  }
+  body .page main .content-layout > .document-content{
+    margin:0 !important;
+    padding:0 !important;
+    min-width:0 !important;
+  }
+  body .page main .content-layout > .side-nav ul{
+    display:grid !important;
+    grid-template-columns:repeat(2,minmax(0,1fr)) !important;
+    gap:2px 8px !important;
+  }
+}
+@media screen and (max-width:430px){
+  body .page main .content-layout > .side-nav ul{grid-template-columns:1fr !important}
+}
+@media print{
+  body .page{width:auto !important;max-width:none !important;margin:0 !important;overflow:visible !important}
+  body .page main .content-layout{display:block !important}
+  body .page main .content-layout > .side-nav{scrollbar-width:thin;scrollbar-color:#aab2bb transparent;display:none !important}
+  body .page main .content-layout > .document-content{margin:0 !important;padding:0 !important}
+}
+
+
+@media screen and (min-width:701px) and (max-width:1050px){
+  body .page{width:calc(100% - 270px) !important;margin-left:258px !important;margin-right:12px !important}
+  body .page .meta-grid{grid-template-columns:repeat(2,minmax(0,1fr))}
+  body .page .brand img{width:175px}
+}
+
+</style>
+</head>
+<body>
+<a href="#contexto" style="position:absolute;left:-9999px;top:auto;width:1px;height:1px;overflow:hidden" onfocus="this.style.left='12px';this.style.width='auto';this.style.height='auto'">Saltar al contenido</a>
+<div class="page">
+<header>
+  <div class="brand">
+    <img src="data:image/png;base64,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" alt="Logotipo institucional UCSC">
+    <div class="brand-meta">Documento de evaluación<br>Certamen práctico integrador</div>
+  </div>
+</header>
+
+<div class="hero">
+  <div class="kicker">Evaluación práctica integradora</div>
+  <h1>Construcción, despliegue y securización de una plataforma web</h1>
+  <p class="subtitle">Desarrollo Web Seguro · JWT · Node.js · NoSQL · DevOps · DevSecOps</p>
+  <div class="meta-grid">
+    <div class="meta"><small>Modalidad</small><strong>Individual o grupal</strong></div>
+    <div class="meta"><small>Puntaje máximo</small><strong>100 puntos</strong></div>
+    <div class="meta"><small>Backend mínimo</small><strong>Node.js + Express</strong></div>
+    <div class="meta"><small>Persistencia</small><strong>Base de datos NoSQL</strong></div>
+    <div class="meta"><small>Fecha de entrega</small><strong>12 de noviembre de 2026</strong></div>
+    <div class="meta"><small>Medio de entrega</small><strong>Plataforma EVA</strong></div>
+  </div>
+</div>
+
+<main>
+<div class="actions">
+  <button class="secondary" onclick="window.scrollTo({top:0,behavior:'smooth'})">Volver al inicio</button>
+  <button onclick="window.print()">Imprimir / Guardar como PDF</button>
+</div>
+
+<div class="content-layout">
+<nav class="side-nav" aria-label="Navegación del certamen">
+<div class="nav-heading">
+  <span class="nav-kicker">Índice del documento</span>
+  <strong>Contenido del certamen</strong>
+</div>
+<ul>
+<li><a href="#contexto">1. Contexto y objetivo</a></li>
+<li><a href="#alcance">2. Alcance y caso de negocio</a></li>
+<li><a href="#desarrollo">3. Requerimientos de desarrollo</a></li>
+<li><a href="#jwt">4. Autenticación y autorización</a></li>
+<li><a href="#bd">5. Administración de base de datos</a></li>
+<li><a href="#comunicacion">6. Contacto, correo y redes sociales</a></li>
+<li><a href="#chatbot">7. Chatbot</a></li>
+<li><a href="#devops">8. DevOps y CI/CD</a></li>
+<li><a href="#devsecops">9. DevSecOps y análisis de seguridad</a></li>
+<li><a href="#hosting">10. Despliegue en hosting</a></li>
+<li><a href="#entregables">11. Entregables</a></li>
+<li><a href="#defensa">12. Defensa técnica</a></li>
+<li><a href="#rubrica">13. Rúbrica de evaluación</a></li>
+<li><a href="#condiciones">14. Condiciones y restricciones</a></li>
+</ul>
+<div class="nav-footer"><span class="nav-dot"></span> Entrega EVA: 12 nov. 2026<br><strong>Certamen práctico · 100 puntos</strong></div>
+</nav>
+<div class="document-content">
+<section id="contexto">
+<h2>1. Contexto del certamen</h2>
+<p>Una empresa u organización requiere implementar una plataforma web para presentar sus servicios, interactuar con clientes y administrar información mediante un sistema centralizado. La solución deberá ofrecer una experiencia funcional y segura, contar con autenticación de usuarios, un panel administrativo, una base de datos NoSQL y canales digitales de comunicación.</p>
+<p>El equipo de desarrollo deberá construir la solución, publicarla en un hosting accesible desde Internet y aplicar prácticas de DevOps y DevSecOps durante el ciclo de vida del software. La aplicación publicada deberá ser sometida a pruebas de seguridad; las vulnerabilidades identificadas deberán analizarse, corregirse y verificarse mediante un nuevo escaneo.</p>
+<div class="callout"><strong>Desafío:</strong> no basta con desarrollar una página visualmente atractiva. Se deberá demostrar que la plataforma funciona, protege la información, puede desplegarse de manera controlada y permite detectar y corregir debilidades de seguridad.</div>
+<h3>Objetivo general</h3>
+<p>Diseñar, desarrollar, desplegar y securizar una plataforma web utilizando Node.js y una base de datos NoSQL, incorporando autenticación JWT, protección de credenciales, administración de usuarios, comunicación con clientes, automatización DevOps y análisis de vulnerabilidades mediante prácticas DevSecOps.</p>
+<div class="callout">
+  <strong>Fecha y modalidad de entrega</strong>
+  <p><strong>Fecha límite: jueves 12 de noviembre de 2026.</strong> El proyecto completo deberá ser adjuntado en la plataforma EVA, dentro de la actividad habilitada para este certamen.</p>
+  <p>La entrega deberá identificar a todos los integrantes del equipo. Se deberá incluir el nombre completo de cada integrante en la información de entrega y en un archivo README o documento de presentación incorporado al proyecto.</p>
+  <p>El envío deberá contener el enlace al repositorio GitHub, la URL pública de la plataforma desplegada y los documentos e informes solicitados en este certamen. Es responsabilidad del equipo verificar que los archivos queden correctamente cargados y que la entrega sea visible en EVA.</p>
+</div>
+<h3>Identificación de los integrantes</h3>
+<table>
+<thead><tr><th>Integrante</th><th>Nombre completo</th><th>Identificación / sección (si corresponde)</th></tr></thead>
+<tbody>
+<tr><td>1</td><td>________________________________</td><td>________________________________</td></tr>
+<tr><td>2</td><td>________________________________</td><td>________________________________</td></tr>
+<tr><td>3</td><td>________________________________</td><td>________________________________</td></tr>
+<tr><td>4</td><td>________________________________</td><td>________________________________</td></tr>
+</tbody>
+</table>
+</section>
+
+<section id="alcance">
+<h2>2. Alcance y definición del caso</h2>
+<p>Cada estudiante o equipo deberá seleccionar una organización ficticia o real (con autorización para utilizar su identidad) y definir el problema o necesidad que resolverá la plataforma.</p>
+<p>Se sugieren los siguientes contextos:</p>
+<ul>
+<li>Sistema de reservas y atención de clientes.</li>
+<li>Portal de servicios profesionales.</li>
+<li>Tienda de comercio electrónico.</li>
+<li>Plataforma de gestión académica.</li>
+<li>Sistema de inventario y solicitudes.</li>
+<li>Portal de administración de servicios para una organización.</li>
+</ul>
+<p>La solución deberá incluir una descripción del problema, público objetivo, funcionalidades principales y alcance. No se aceptará una página estática como solución completa.</p>
+</section>
+
+<section id="desarrollo">
+<h2>3. Requerimientos mínimos de desarrollo web</h2>
+<table>
+<thead><tr><th>Componente</th><th>Requerimiento mínimo</th></tr></thead>
+<tbody>
+<tr><td>Frontend</td><td>Interfaz responsiva, navegación clara y formularios funcionales. Se recomienda React + Vite, aunque se acepta otra tecnología frontend debidamente justificada.</td></tr>
+<tr><td>Backend</td><td>Node.js con Express.</td></tr>
+<tr><td>Base de datos</td><td>MongoDB u otra base de datos NoSQL aprobada por el docente.</td></tr>
+<tr><td>Acceso a datos</td><td>Mongoose u otra herramienta equivalente para la persistencia y validación.</td></tr>
+<tr><td>API</td><td>API REST con operaciones CRUD para las entidades principales.</td></tr>
+<tr><td>Arquitectura</td><td>Separación lógica entre frontend, backend y persistencia.</td></tr>
+<tr><td>Validaciones</td><td>Validación de entradas en cliente y servidor.</td></tr>
+<tr><td>Errores</td><td>Respuestas controladas; no exponer trazas, secretos ni detalles internos en producción.</td></tr>
+</tbody>
+</table>
+<p>La plataforma deberá contar con una página principal, presentación de la organización o servicio, sección de información y contacto, además de las funcionalidades propias del caso seleccionado.</p>
+</section>
+
+<section id="jwt">
+<h2>4. Autenticación, autorización y protección de credenciales</h2>
+<h3>4.1. Autenticación JWT</h3>
+<p>Se deberá implementar un mecanismo de autenticación basado en JSON Web Tokens (JWT) que considere, como mínimo:</p>
+<ol>
+<li>Registro de usuarios.</li>
+<li>Inicio y cierre de sesión.</li>
+<li>Generación y validación de tokens JWT.</li>
+<li>Protección de rutas y endpoints privados.</li>
+<li>Expiración de tokens y estrategia segura de renovación o reautenticación.</li>
+<li>Control de acceso basado en roles.</li>
+<li>Respuestas adecuadas ante tokens ausentes, inválidos o expirados.</li>
+</ol>
+<table>
+<thead><tr><th>Rol</th><th>Permisos mínimos</th></tr></thead>
+<tbody>
+<tr><td>Administrador</td><td>Gestionar usuarios, roles, contenidos, solicitudes y configuración de los módulos administrativos.</td></tr>
+<tr><td>Usuario registrado</td><td>Acceder a las funciones habilitadas para su perfil y administrar sus propios datos cuando corresponda.</td></tr>
+<tr><td>Visitante</td><td>Consultar información pública, utilizar el formulario de contacto y acceder al chatbot.</td></tr>
+</tbody>
+</table>
+<h3>4.2. Hash de contraseñas</h3>
+<p>Las contraseñas deberán almacenarse utilizando <strong>bcrypt o Argon2</strong>. Se exige:</p>
+<ul>
+<li>Generar el hash antes de guardar la contraseña.</li>
+<li>Verificar contraseñas mediante las funciones de comparación correspondientes.</li>
+<li>No almacenar ni devolver contraseñas en texto plano.</li>
+<li>Excluir hashes y datos sensibles de las respuestas de la API.</li>
+<li>Gestionar los secretos mediante variables de entorno.</li>
+</ul>
+<div class="note"><strong>Importante:</strong> JWT no cifra los datos de su contenido. No se deberán incluir contraseñas, secretos ni información sensible en el payload del token.</div>
+</section>
+
+<section id="bd">
+<h2>5. Administración de base de datos NoSQL</h2>
+<p>La solución deberá utilizar una base de datos NoSQL y contar con un mecanismo de administración documentado. Se recomienda MongoDB Atlas.</p>
+<p>Requerimientos mínimos:</p>
+<ol>
+<li>Crear una base de datos y sus colecciones.</li>
+<li>Diseñar documentos y relaciones de referencia o embebidas de acuerdo con el caso.</li>
+<li>Configurar un usuario de base de datos para la aplicación con privilegios mínimos.</li>
+<li>Separar las credenciales de base de datos del código fuente.</li>
+<li>Implementar validaciones de estructura e integridad.</li>
+<li>Crear índices cuando sean necesarios.</li>
+<li>Documentar el procedimiento de respaldo y recuperación o exportación.</li>
+<li>Demostrar la administración y consulta de los datos.</li>
+</ol>
+<div class="callout"><strong>Principio de mínimo privilegio:</strong> la aplicación no deberá conectarse utilizando una cuenta con permisos globales de administración. Se deberá utilizar una cuenta específica con los permisos estrictamente necesarios.</div>
+</section>
+
+<section id="comunicacion">
+<h2>6. Formulario de contacto, correo electrónico y redes sociales</h2>
+<h3>6.1. Formulario de contacto <span class="pill">Obligatorio</span></h3>
+<p>La plataforma deberá incluir un formulario que permita a los visitantes enviar consultas o solicitudes a la organización.</p>
+<table>
+<thead><tr><th>Campo</th><th>Condición</th></tr></thead>
+<tbody>
+<tr><td>Nombre</td><td>Obligatorio.</td></tr>
+<tr><td>Correo electrónico</td><td>Obligatorio y validado.</td></tr>
+<tr><td>Teléfono</td><td>Opcional.</td></tr>
+<tr><td>Asunto</td><td>Obligatorio.</td></tr>
+<tr><td>Mensaje</td><td>Obligatorio, con límites de longitud.</td></tr>
+</tbody>
+</table>
+<h3>6.2. Flujo de envío de correo</h3>
+<ol>
+<li>El visitante completa y envía el formulario.</li>
+<li>El frontend valida los campos y el backend vuelve a validar la información.</li>
+<li>El backend registra la solicitud en MongoDB.</li>
+<li>Se envía un correo al buzón institucional configurado.</li>
+<li>Se envía una confirmación al correo proporcionado por el cliente.</li>
+<li>La interfaz informa el resultado del envío sin revelar datos internos.</li>
+</ol>
+<div class="note"><strong>Recomendación técnica:</strong> utilizar Nodemailer con SMTP o un proveedor de correo transaccional. Los dos mensajes deberán generarse desde el backend. El destinatario institucional debe estar definido en la configuración del servidor y nunca ser controlado libremente por el visitante.</div>
+<h4>Seguridad del formulario y correo</h4>
+<ul>
+<li>Validar y normalizar los datos recibidos.</li>
+<li>Prevenir inyección de encabezados de correo.</li>
+<li>Implementar rate limiting y protección antispam.</li>
+<li>Considerar CAPTCHA o mecanismo equivalente.</li>
+<li>Guardar credenciales SMTP en variables de entorno.</li>
+<li>No incluir secretos ni información sensible en los logs.</li>
+</ul>
+<h3>6.3. Integración de redes sociales <span class="pill">Obligatorio</span></h3>
+<p>La plataforma deberá mostrar enlaces a los perfiles oficiales de la organización. Se podrán incorporar Instagram, Facebook, LinkedIn, TikTok y WhatsApp Business, según el contexto del proyecto.</p>
+<p>El panel administrativo deberá permitir agregar, editar, activar y desactivar enlaces sin modificar el código fuente. Los enlaces externos deberán validarse y abrirse con medidas de seguridad apropiadas.</p>
+</section>
+
+<section id="chatbot">
+<h2>7. Chatbot de atención al cliente</h2>
+<p>Se deberá implementar un chatbot accesible desde la plataforma, mediante un botón o ventana flotante, para orientar a los visitantes y responder consultas frecuentes.</p>
+<h3>Funcionalidades mínimas</h3>
+<ul>
+<li>Mensaje automático de bienvenida.</li>
+<li>Interfaz para enviar y recibir mensajes.</li>
+<li>Menú de opciones o categorías de consultas.</li>
+<li>Respuestas a preguntas frecuentes.</li>
+<li>Opción para solicitar contacto con un ejecutivo.</li>
+<li>Registro de preguntas y respuestas o conversaciones en MongoDB, cuando corresponda.</li>
+<li>Mensaje alternativo cuando no exista una respuesta disponible.</li>
+</ul>
+<h3>Implementación</h3>
+<p>El chatbot mínimo deberá funcionar mediante reglas o preguntas y respuestas administrables desde MongoDB. Se valorará que el administrador pueda crear, editar, activar y desactivar respuestas sin modificar el código.</p>
+<p>La integración con un servicio de inteligencia artificial será opcional y podrá considerarse como funcionalidad avanzada, siempre que se protejan las claves de API y se controle el acceso a información privada.</p>
+<div class="callout"><strong>Seguridad:</strong> validar entradas, limitar frecuencia y tamaño de mensajes, evitar que el chatbot revele información privada y no permitir que ejecute acciones administrativas sin autenticación y autorización.</div>
+</section>
+
+<section id="devops">
+<h2>8. Implementación DevOps y automatización CI/CD</h2>
+<p>Se deberá utilizar control de versiones y demostrar un flujo de integración y despliegue continuo.</p>
+<table>
+<thead><tr><th>Elemento</th><th>Exigencia</th></tr></thead>
+<tbody>
+<tr><td>Git</td><td>Control de versiones y commits descriptivos.</td></tr>
+<tr><td>GitHub</td><td>Repositorio remoto con código fuente y README.</td></tr>
+<tr><td>Ramas</td><td>Uso organizado de ramas de desarrollo y principal.</td></tr>
+<tr><td>CI</td><td>Instalación de dependencias, compilación y ejecución de pruebas automatizadas.</td></tr>
+<tr><td>CD</td><td>Despliegue automatizado o semiautomatizado al hosting.</td></tr>
+<tr><td>Secretos</td><td>Variables y secretos configurados en el entorno de despliegue; nunca en el repositorio.</td></tr>
+</tbody>
+</table>
+<h3>Flujo de referencia</h3>
+<div class="arch">
+<div><b>1. Desarrollo</b><small>Node.js · Express · Frontend</small></div>
+<div class="arrow">↓</div>
+<div><b>2. Control de versiones</b><small>Git · GitHub · ramas · Pull Requests</small></div>
+<div class="arrow">↓</div>
+<div><b>3. Integración continua</b><small>GitHub Actions · instalación · pruebas · build</small></div>
+<div class="arrow">↓</div>
+<div><b>4. Controles de seguridad</b><small>SAST · análisis de dependencias · validaciones</small></div>
+<div class="arrow">↓</div>
+<div><b>5. Despliegue</b><small>Hosting · HTTPS · variables de entorno</small></div>
+</div>
+<p>Se recomienda GitHub Actions para implementar el pipeline. El estudiante deberá explicar qué tareas se ejecutan y qué condiciones permiten o impiden el despliegue.</p>
+</section>
+
+<section id="devsecops">
+<h2>9. DevSecOps: análisis de vulnerabilidades y correcciones</h2>
+<p>La seguridad deberá incorporarse durante el desarrollo y antes de la entrega. Cada equipo deberá realizar análisis de código, dependencias y comportamiento de la aplicación desplegada.</p>
+<h3>9.1. Herramientas sugeridas</h3>
+<table>
+<thead><tr><th>Herramienta</th><th>Tipo de análisis / finalidad</th></tr></thead>
+<tbody>
+<tr><td>OWASP ZAP</td><td>DAST: análisis dinámico de la aplicación web.</td></tr>
+<tr><td>GitHub CodeQL</td><td>SAST: análisis estático de código compatible.</td></tr>
+<tr><td>npm audit</td><td>Identificación de vulnerabilidades conocidas en dependencias Node.js.</td></tr>
+<tr><td>Snyk</td><td>Análisis de dependencias y riesgos de componentes, como alternativa o complemento.</td></tr>
+</tbody>
+</table>
+<h3>9.2. Riesgos mínimos que deberán evaluar</h3>
+<table>
+<thead><tr><th>Riesgo</th><th>Verificación esperada</th></tr></thead>
+<tbody>
+<tr><td>Control de acceso deficiente</td><td>Comprobar que un usuario no pueda acceder a recursos o funciones de otro rol.</td></tr>
+<tr><td>Autenticación débil</td><td>Evaluar controles de acceso, sesiones, expiración y validación de tokens.</td></tr>
+<tr><td>Inyección</td><td>Evaluar entradas que puedan alterar consultas o procesamiento de datos.</td></tr>
+<tr><td>XSS</td><td>Comprobar que entradas y contenidos no permitan ejecutar scripts no autorizados.</td></tr>
+<tr><td>Configuración insegura</td><td>Revisar HTTPS, cabeceras, CORS, mensajes de error y configuración del servidor.</td></tr>
+<tr><td>Exposición de datos</td><td>Verificar que no se filtren credenciales, datos personales, hashes o secretos.</td></tr>
+<tr><td>Dependencias vulnerables</td><td>Analizar paquetes y versiones utilizadas por el proyecto.</td></tr>
+<tr><td>Protección insuficiente de formularios</td><td>Evaluar spam, validaciones, límites de envío y manipulación de entradas.</td></tr>
+</tbody>
+</table>
+<p>Se utilizará como referencia el OWASP Top 10 vigente o la versión indicada por el docente.</p>
+<h3>9.3. Corrección y verificación</h3>
+<p>Por cada hallazgo relevante, el equipo deberá:</p>
+<ol>
+<li>Registrar la vulnerabilidad y la herramienta que la detectó.</li>
+<li>Indicar evidencia, componente afectado y nivel de riesgo.</li>
+<li>Explicar el impacto potencial.</li>
+<li>Proponer y aplicar una corrección técnica.</li>
+<li>Ejecutar nuevamente el análisis.</li>
+<li>Comparar los resultados antes y después.</li>
+</ol>
+<div class="callout"><strong>Evidencia obligatoria:</strong> informe comparativo con hallazgos iniciales, correcciones aplicadas y resultado de la verificación posterior. No se otorgará el puntaje completo por presentar únicamente capturas del escaneo sin análisis ni correcciones.</div>
+<h3>9.4. Integración de seguridad en CI/CD</h3>
+<p>Se deberá incorporar al menos una validación de seguridad automatizada en el pipeline. Se valorará que el flujo detenga o marque como fallido el proceso ante pruebas fallidas o vulnerabilidades que superen el umbral de severidad definido por el equipo y justificado en la documentación.</p>
+</section>
+
+<section id="hosting">
+<h2>10. Despliegue en hosting</h2>
+<p>La plataforma deberá estar publicada y accesible desde Internet durante la evaluación. Se aceptan servicios de hosting compatibles con la arquitectura propuesta.</p>
+<table>
+<thead><tr><th>Servicio sugerido</th><th>Uso posible</th></tr></thead>
+<tbody>
+<tr><td>Render / Railway</td><td>Despliegue del backend Node.js y servicios web.</td></tr>
+<tr><td>Vercel</td><td>Despliegue del frontend y funciones compatibles.</td></tr>
+<tr><td>MongoDB Atlas</td><td>Base de datos NoSQL administrada.</td></tr>
+</tbody>
+</table>
+<p>Se podrán utilizar otros proveedores previa aprobación del docente.</p>
+<h3>Requisitos de publicación</h3>
+<ul>
+<li>URL pública y funcional.</li>
+<li>HTTPS habilitado.</li>
+<li>Conexión a base de datos remota.</li>
+<li>Variables de entorno configuradas en el hosting.</li>
+<li>Credenciales y secretos ausentes del repositorio.</li>
+<li>Pruebas de funcionamiento en el entorno publicado.</li>
+<li>Documentación de despliegue y dependencias.</li>
+</ul>
+</section>
+
+<section id="entregables">
+<h2>11. Entregables del certamen</h2>
+<table>
+<thead><tr><th>N.º</th><th>Entregable</th><th>Evidencia requerida</th></tr></thead>
+<tbody>
+<tr><td>1</td><td>Plataforma web</td><td>URL pública funcional.</td></tr>
+<tr><td>2</td><td>Código fuente</td><td>Repositorio GitHub y README.</td></tr>
+<tr><td>3</td><td>Base de datos</td><td>Modelo, colecciones, índices y configuración de acceso.</td></tr>
+<tr><td>4</td><td>Autenticación</td><td>Demostración de JWT, roles y hash de contraseñas.</td></tr>
+<tr><td>5</td><td>Panel administrativo</td><td>Gestión de usuarios, contenidos y módulos configurables.</td></tr>
+<tr><td>6</td><td>Contacto y correo</td><td>Formulario, registro en BD y evidencia de ambos correos.</td></tr>
+<tr><td>7</td><td>Redes sociales</td><td>Enlaces funcionales y administración desde el panel.</td></tr>
+<tr><td>8</td><td>Chatbot</td><td>Demostración de preguntas, respuestas y administración.</td></tr>
+<tr><td>9</td><td>DevOps</td><td>Repositorio, historial y ejecución del pipeline.</td></tr>
+<tr><td>10</td><td>DevSecOps</td><td>Herramientas, reportes y controles automatizados.</td></tr>
+<tr><td>11</td><td>Informe de seguridad</td><td>Hallazgos, clasificación, impacto y evidencias.</td></tr>
+<tr><td>12</td><td>Correcciones</td><td>Soluciones implementadas y nuevo escaneo.</td></tr>
+<tr><td>13</td><td>Documentación</td><td>Manual técnico, instalación, configuración y despliegue.</td></tr>
+</tbody>
+</table>
+<h3>Documentación técnica mínima</h3>
+<ul>
+<li>Descripción del proyecto y funcionalidades.</li>
+<li>Diagrama de arquitectura.</li>
+<li>Modelo de datos NoSQL.</li>
+<li>Instrucciones para instalar y ejecutar el proyecto.</li>
+<li>Variables de entorno requeridas, sin publicar sus valores secretos.</li>
+<li>Descripción del pipeline CI/CD.</li>
+<li>Informe de análisis y corrección de vulnerabilidades.</li>
+<li>URL de producción y credenciales de demostración con permisos acotados, entregadas por un canal seguro.</li>
+</ul>
+</section>
+
+<section id="defensa">
+<h2>12. Defensa técnica y demostración</h2>
+<p>Durante la presentación, el docente podrá solicitar que el equipo demuestre los siguientes escenarios:</p>
+<ol>
+<li>Registrar un usuario y comprobar que la contraseña no se almacena en texto plano.</li>
+<li>Iniciar sesión y explicar la generación y validación del JWT.</li>
+<li>Intentar acceder a una ruta protegida sin token.</li>
+<li>Intentar acceder al panel administrativo con un usuario sin permisos.</li>
+<li>Mostrar la estructura y administración de la base de datos.</li>
+<li>Enviar el formulario y comprobar el registro, el correo institucional y la copia al cliente.</li>
+<li>Modificar un enlace de red social desde el panel administrativo.</li>
+<li>Interactuar con el chatbot y demostrar la gestión de preguntas y respuestas.</li>
+<li>Mostrar el repositorio y ejecutar o revisar el pipeline CI/CD.</li>
+<li>Presentar el resultado del análisis de vulnerabilidades.</li>
+<li>Explicar una vulnerabilidad detectada, su impacto y la solución aplicada.</li>
+<li>Ejecutar o mostrar el análisis posterior a la corrección.</li>
+</ol>
+<div class="note"><strong>La defensa forma parte de la evaluación.</strong> Cada integrante deberá conocer la arquitectura, el código y las decisiones de seguridad implementadas. No será suficiente presentar funcionalidades que el equipo no pueda explicar.</div>
+</section>
+
+<section id="rubrica">
+<h2>13. Rúbrica de evaluación</h2>
+<p>La evaluación considera funcionalidad, calidad de implementación, seguridad, automatización y evidencia técnica.</p>
+<table>
+<thead><tr><th>Criterio</th><th>Indicadores principales</th><th class="points">Puntos</th></tr></thead>
+<tbody>
+<tr><td>Desarrollo web y API REST</td><td>Frontend responsivo, backend Node.js, arquitectura, endpoints y CRUD funcional.</td><td class="points">12</td></tr>
+<tr><td>JWT y autorización</td><td>Generación y validación de tokens, expiración, rutas protegidas y roles.</td><td class="points">10</td></tr>
+<tr><td>Protección de contraseñas</td><td>Uso correcto de bcrypt o Argon2, comparación y protección de datos.</td><td class="points">7</td></tr>
+<tr><td>Base de datos NoSQL</td><td>Modelo, colecciones, administración, privilegios mínimos y respaldo.</td><td class="points">8</td></tr>
+<tr><td>Panel administrativo</td><td>Gestión de usuarios, roles, registros y configuración de módulos.</td><td class="points">7</td></tr>
+<tr><td>Formulario y envío de correos</td><td>Validación, persistencia, correo a empresa y confirmación al cliente.</td><td class="points">7</td></tr>
+<tr><td>Redes sociales</td><td>Enlaces funcionales y administración desde el panel.</td><td class="points">3</td></tr>
+<tr><td>Chatbot</td><td>Interacción, preguntas frecuentes, respuestas y administración.</td><td class="points">6</td></tr>
+<tr><td>DevOps y CI/CD</td><td>Git, GitHub, organización del repositorio y pipeline automatizado.</td><td class="points">10</td></tr>
+<tr><td>Implementación DevSecOps</td><td>Integración de herramientas y controles de seguridad en el ciclo de desarrollo.</td><td class="points">10</td></tr>
+<tr><td>Análisis de vulnerabilidades</td><td>Escaneo, evidencias, identificación y clasificación de hallazgos.</td><td class="points">10</td></tr>
+<tr><td>Corrección y verificación</td><td>Soluciones técnicas y comparación de resultados antes y después.</td><td class="points">6</td></tr>
+<tr><td>Hosting y documentación</td><td>Despliegue HTTPS, disponibilidad y documentación técnica.</td><td class="points">4</td></tr>
+<tr class="rubric-total"><td colspan="2">TOTAL</td><td class="points">100</td></tr>
+</tbody>
+</table>
+</section>
+
+<section id="condiciones">
+<h2>14. Condiciones y restricciones</h2>
+<ul>
+<li>Los escaneos y pruebas de seguridad deberán realizarse exclusivamente sobre la aplicación propia o infraestructura para la cual exista autorización explícita.</li>
+<li>No se permitirá realizar pruebas contra sistemas o servicios de terceros.</li>
+<li>No se deberán publicar claves, contraseñas, tokens ni credenciales en repositorios o documentación pública.</li>
+<li>Las pruebas deberán ejecutarse en un ambiente controlado y con respaldo de información cuando corresponda.</li>
+<li>Los estudiantes deberán documentar las herramientas utilizadas y los resultados obtenidos.</li>
+<li>No se aceptará ocultar un hallazgo eliminando una funcionalidad sin una justificación técnica válida.</li>
+<li>La aplicación deberá permanecer operativa y disponible para su revisión en la fecha de evaluación.</li>
+<li>El equipo deberá respetar las condiciones de uso de los proveedores de hosting, correo y base de datos seleccionados.</li>
+</ul>
+<div class="callout"><strong>Criterio transversal:</strong> una plataforma visualmente atractiva que no implemente correctamente los controles de seguridad, o que no pueda demostrar su funcionamiento, no podrá obtener el puntaje completo de los criterios asociados.</div>
+<h3>Resultado esperado</h3>
+<p>Al finalizar el certamen, cada equipo deberá entregar una plataforma empresarial funcional, desplegada y accesible mediante HTTPS, con autenticación y autorización, base de datos NoSQL administrada, panel administrativo, formulario de contacto con envío de correos, integración de redes sociales, chatbot y un proceso demostrable de DevOps y DevSecOps.</p>
+<p>El propósito central es que los estudiantes demuestren que pueden construir una solución web, operarla en un entorno real y evaluar críticamente su seguridad, identificando y corrigiendo vulnerabilidades durante el ciclo de vida del software.</p>
+</section>
+</div>
+</div>
+</main>
+<footer>
+  <div><strong>Certamen práctico integrador</strong><br>Desarrollo Web Seguro · DevOps · DevSecOps</div>
+  <div>Documento académico de evaluación<br>Universidad Católica de la Santísima Concepción</div>
+</footer>
+</div>
+</body>
+</html>

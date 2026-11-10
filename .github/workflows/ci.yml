@@ -6,83 +6,48 @@ on:
   pull_request:
     branches: [main, develop]
 
-permissions:
-  contents: read
-
 jobs:
-  backend:
-    name: Backend - pruebas automatizadas
+  test-and-build:
     runs-on: ubuntu-latest
-    services:
-      mongo:
-        image: mongo:7
-        ports:
-          - 27017:27017
-        options: >-
-          --health-cmd "mongosh --quiet --eval 'db.runCommand({ ping: 1 }).ok'"
-          --health-interval 10s
-          --health-timeout 5s
-          --health-retries 5
-    env:
-      TEST_MONGODB_URI: mongodb://127.0.0.1:27017/reservas_test
-    defaults:
-      run:
-        working-directory: backend
     steps:
-      - name: Checkout
-        uses: actions/checkout@v4
-
-      - name: Configurar Node.js
-        uses: actions/setup-node@v4
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
         with:
           node-version: 20
           cache: npm
-          cache-dependency-path: backend/package-lock.json
-
-      - name: Instalar dependencias
-        run: npm ci
-
-      - name: Ejecutar pruebas
-        run: npm test
-
-  frontend:
-    name: Frontend - build de produccion
-    runs-on: ubuntu-latest
-    defaults:
-      run:
-        working-directory: frontend
-    steps:
-      - name: Checkout
-        uses: actions/checkout@v4
-
-      - name: Configurar Node.js
-        uses: actions/setup-node@v4
-        with:
-          node-version: 20
-          cache: npm
-          cache-dependency-path: frontend/package-lock.json
-
-      - name: Instalar dependencias
-        run: npm ci
-
-      - name: Compilar
-        run: npm run build
-
-      - name: Verificar artefacto
-        run: test -f dist/index.html
+          cache-dependency-path: |
+            backend/package-lock.json
+            frontend/package-lock.json
+      - run: npm ci --prefix backend
+      - run: npm ci --prefix frontend
+      - run: npm test --prefix backend
+      - run: npm run build --prefix frontend
 
   deploy:
-    name: CD - despliegue en Render
-    needs: [backend, frontend]
     if: github.ref == 'refs/heads/main' && github.event_name == 'push'
+    needs: test-and-build
     runs-on: ubuntu-latest
     steps:
-      - name: Disparar deploy hook de Render
-        env:
-          RENDER_DEPLOY_HOOK_URL: ${{ secrets.RENDER_DEPLOY_HOOK_URL }}
+      - name: Trigger Render deploy hook
         run: |
-          if [ -z "$RENDER_DEPLOY_HOOK_URL" ]; then
-            echo "RENDER_DEPLOY_HOOK_URL no configurado: se omite el despliegue automatico."
-            exit 0
+          if [ -z "$RENDER_DEPLOY_HOOK" ]; then
+            echo "Falta el secreto RENDER_DEPLOY_HOOK" >&2
+            exit 1
           fi
-          curl -fsSL -X POST "$RENDER_DEPLOY_HOOK_URL"
+          curl -fsS -X POST "$RENDER_DEPLOY_HOOK"
+      - name: Health check
+        run: |
+          for i in $(seq 1 12); do
+            status=$(curl -s -o /dev/null -w "%{http_code}" "$APP_URL/api/health" || true)
+            echo "Intento $i: HTTP $status"
+            if [ "$status" = "200" ]; then
+              curl -s "$APP_URL/api/health"
+              exit 0
+            fi
+            sleep 10
+          done
+          echo "Health check fallido"
+          exit 1
+        env:
+          RENDER_DEPLOY_HOOK: ${{ secrets.RENDER_DEPLOY_HOOK }}
+          APP_URL: ${{ secrets.PUBLIC_URL }}

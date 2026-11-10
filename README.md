@@ -153,7 +153,7 @@ incluyen trazas ni detalles internos.
 - **CORS**: lista explícita de orígenes con credenciales; nunca `*`.
 - **Rate limiting**: global, login, registro, contacto y chatbot con límites diferenciados.
 - **Chatbot generativo**: la clave del proveedor vive solo en el servidor, el contexto se limita a
-  información pública del negocio, se aplican instrucciones contra prompt injection, timeout de 15 s
+  información pública del negocio, se aplican instrucciones contra prompt injection, timeout de 45 s
   y tope de respuesta. No se envían datos personales ni credenciales al modelo.
 - **Secretos**: solo en variables de entorno; `.env` fuera del repositorio.
 - **Datos sensibles**: `passwordHash` y tokens de refresh usan `select: false` y se eliminan en
@@ -180,7 +180,14 @@ La guía completa está en [`docs/04-manual-despliegue.md`](docs/04-manual-despl
 2. Crear un Web Service en Render conectado al repositorio (o usar `render.yaml`).
 3. Configurar las variables de entorno en Render; los secretos JWT pueden generarse allí.
 4. Ejecutar `npm run seed` apuntando a Atlas para crear el administrador inicial.
-5. Verificar `https://TU-APP.onrender.com/api/health` y las credenciales de demostración.
+5. Verificar `https://<nombre-unico>.onrender.com/api/health` y las credenciales de demostración.
+
+### Estado del despliegue
+
+- URL de producción: `https://<nombre-unico>.onrender.com` (pendiente de asignar el nombre final en Render).
+- Health check: `GET /api/health` debe responder `{ "ok": true, "status": "up" }`.
+- Chatbot: debe responder con `"mode": "llm"` en `/api/chatbot/welcome`.
+- Credenciales de demostración: usar las definidas en `ADMIN_EMAIL` y `ADMIN_PASSWORD` de Render; no publicarlas en el repositorio.
 
 ## Estructura del repositorio
 

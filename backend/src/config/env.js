@@ -62,6 +62,7 @@ const env = {
     model: process.env.LLM_MODEL || 'gpt-4o-mini',
     temperature: Number(process.env.LLM_TEMPERATURE || 0.4),
     maxTokens: Number(process.env.LLM_MAX_TOKENS || 320),
+    reasoningEffort: process.env.LLM_REASONING_EFFORT || '',
   },
   admin: {
     name: process.env.ADMIN_NAME || 'Administrador',
