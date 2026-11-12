@@ -1,0 +1,7 @@
+=== Rate limit: hasta 20 solicitudes POST /api/contact ===
+Solicitud 1 -> HTTP 201
+Solicitud 2 -> HTTP 201
+Solicitud 3 -> HTTP 201
+Solicitud 4 -> HTTP 201
+Solicitud 5 -> HTTP 201
+Solicitud 6 -> HTTP 429

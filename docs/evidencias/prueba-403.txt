@@ -1,0 +1,73 @@
+=== Registro de cliente de prueba ===
+HTTP/1.1 201 Created
+Date: Thu, 12 Nov 2026 01:21:02 GMT
+Content-Type: application/json; charset=utf-8
+Transfer-Encoding: chunked
+Connection: keep-alive
+access-control-allow-credentials: true
+cf-cache-status: DYNAMIC
+content-security-policy: default-src 'self';base-uri 'self';font-src 'self' data:;form-action 'self';frame-ancestors 'none';img-src 'self' data: https:;object-src 'none';script-src 'self';script-src-attr 'none';style-src 'self' 'unsafe-inline';upgrade-insecure-requests;connect-src 'self'
+cross-origin-opener-policy: same-origin
+cross-origin-resource-policy: same-origin
+etag: W/"1f2-6JVdL/k+EdaQrleK7BnBzEfPPxI"
+origin-agent-cluster: ?1
+permissions-policy: camera=(), microphone=(), geolocation=(), payment=()
+ratelimit-limit: 30
+ratelimit-policy: 30;w=900
+ratelimit-remaining: 29
+ratelimit-reset: 900
+referrer-policy: no-referrer
+rndr-id: 5b7c6b6e-a374-46e3
+Server: cloudflare
+Set-Cookie: refreshToken=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0eXBlIjoicmVmcmVzaCIsImlhdCI6MTc5NDQ0NjQ2MSwiZXhwIjoxNzk1MDUxMjYxLCJhdWQiOiJyZXNlcnZhcy13ZWIiLCJpc3MiOiJyZXNlcnZhcy1hcGkiLCJzdWIiOiI2YWY1MTQ3ZGFlMTAxZjM2MTE1YTcwYzAifQ.CsDNV9lKWnC_W3Y0_f1m6fV0JwWJI15XgicQ-TFvZUI; Max-Age=604800; Path=/api/auth; Expires=Thu, 19 Nov 2026 01:21:01 GMT; HttpOnly; Secure; SameSite=Lax
+strict-transport-security: max-age=15552000; includeSubDomains
+vary: Origin
+vary: Accept-Encoding
+x-content-type-options: nosniff
+x-dns-prefetch-control: off
+x-download-options: noopen
+x-frame-options: SAMEORIGIN
+x-permitted-cross-domain-policies: none
+x-render-origin-server: Render
+x-xss-protection: 0
+CF-RAY: a591b7a13b04bae7-SCL
+alt-svc: h3=":443"; ma=86400
+
+{"ok":true,"user":{"name":"Cliente Prueba","email":"cliente.prueba.evidencia@example.com","role":"client","active":true,"_id":"6af5147dae101f36115a70c0","createdAt":"2026-11-12T01:21:01.612Z","updatedAt":"2026-11-12T01:21:01.812Z"},"accessToken":"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJyb2xlIjoiY2xpZW50IiwiaWF0IjoxNzk0NDQ2NDYxLCJleHAiOjE3OTQ0NDczNjEsImF1ZCI6InJlc2VydmFzLXdlYiIsImlzcyI6InJlc2VydmFzLWFwaSIsInN1YiI6IjZhZjUxNDdkYWUxMDFmMzYxMTVhNzBjMCJ9.XV-9hW-wvv-aNzMgGAVRWyWgz6sjLCW1_ZloWLkxkYg"}
+=== Login de cliente de prueba ===
+{"ok":true,"user":{"_id":"6af5147dae101f36115a70c0","name":"Cliente Prueba","email":"cliente.prueba.evidencia@example.com","role":"client","active":true,"createdAt":"2026-11-12T01:21:01.612Z","updatedAt":"2026-11-12T01:21:04.612Z","lastLoginAt":"2026-11-12T01:21:04.610Z"},"accessToken":"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJyb2xlIjoiY2xpZW50IiwiaWF0IjoxNzk0NDQ2NDY0LCJleHAiOjE3OTQ0NDczNjQsImF1ZCI6InJlc2VydmFzLXdlYiIsImlzcyI6InJlc2VydmFzLWFwaSIsInN1YiI6IjZhZjUxNDdkYWUxMDFmMzYxMTVhNzBjMCJ9.jenY4gkQIdZUU75ck71xjxIShtA-jJa6uMryt_7otXo"}
+=== Intento de acceso a /api/users con token de cliente ===
+HTTP/1.1 403 Forbidden
+Date: Thu, 12 Nov 2026 01:21:05 GMT
+Content-Type: application/json; charset=utf-8
+Transfer-Encoding: chunked
+Connection: keep-alive
+access-control-allow-credentials: true
+cf-cache-status: DYNAMIC
+content-security-policy: default-src 'self';base-uri 'self';font-src 'self' data:;form-action 'self';frame-ancestors 'none';img-src 'self' data: https:;object-src 'none';script-src 'self';script-src-attr 'none';style-src 'self' 'unsafe-inline';upgrade-insecure-requests;connect-src 'self'
+cross-origin-opener-policy: same-origin
+cross-origin-resource-policy: same-origin
+etag: W/"58-i3T7+auMlgcVnGQP6F/i5DgdRgc"
+origin-agent-cluster: ?1
+permissions-policy: camera=(), microphone=(), geolocation=(), payment=()
+ratelimit-limit: 200
+ratelimit-policy: 200;w=60
+ratelimit-remaining: 196
+ratelimit-reset: 23
+referrer-policy: no-referrer
+rndr-id: df0adc4d-85cd-4a58
+Server: cloudflare
+strict-transport-security: max-age=15552000; includeSubDomains
+vary: Origin
+vary: Accept-Encoding
+x-content-type-options: nosniff
+x-dns-prefetch-control: off
+x-download-options: noopen
+x-frame-options: SAMEORIGIN
+x-permitted-cross-domain-policies: none
+x-render-origin-server: Render
+x-xss-protection: 0
+CF-RAY: a591b7c6f9bc3d5e-SCL
+alt-svc: h3=":443"; ma=86400
+
+{"ok":false,"message":"No tienes permisos para realizar esta accion","code":"FORBIDDEN"}
