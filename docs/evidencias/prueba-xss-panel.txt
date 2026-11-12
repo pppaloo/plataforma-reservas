@@ -1,0 +1,35 @@
+=== GET /api/contact con token admin ===
+HTTP/1.1 200 OK
+Date: Thu, 12 Nov 2026 01:25:32 GMT
+Content-Type: application/json; charset=utf-8
+Transfer-Encoding: chunked
+Connection: keep-alive
+access-control-allow-credentials: true
+cf-cache-status: DYNAMIC
+content-security-policy: default-src 'self';base-uri 'self';font-src 'self' data:;form-action 'self';frame-ancestors 'none';img-src 'self' data: https:;object-src 'none';script-src 'self';script-src-attr 'none';style-src 'self' 'unsafe-inline';upgrade-insecure-requests;connect-src 'self'
+cross-origin-opener-policy: same-origin
+cross-origin-resource-policy: same-origin
+etag: W/"10a1-VcJtEegQHLD05ou3wDaD8ocvjC4"
+origin-agent-cluster: ?1
+permissions-policy: camera=(), microphone=(), geolocation=(), payment=()
+ratelimit-limit: 200
+ratelimit-policy: 200;w=60
+ratelimit-remaining: 199
+ratelimit-reset: 60
+referrer-policy: no-referrer
+rndr-id: b3608186-2348-45a5
+Server: cloudflare
+strict-transport-security: max-age=15552000; includeSubDomains
+vary: Origin
+vary: Accept-Encoding
+x-content-type-options: nosniff
+x-dns-prefetch-control: off
+x-download-options: noopen
+x-frame-options: SAMEORIGIN
+x-permitted-cross-domain-policies: none
+x-render-origin-server: Render
+x-xss-protection: 0
+CF-RAY: a591be49dbbd9288-SCL
+alt-svc: h3=":443"; ma=86400
+
+{"ok":true,"requests":[{"_id":"6af5158063fb5480b6276e0f","name":"<script>alert(1)</script>","email":"xss.prueba@example.com","phone":"+56912345678","subject":"Prueba XSS","message":"<script>alert(1)</script> texto de prueba","status":"new","emailStatus":"skipped","createdAt":"2026-11-12T01:25:20.118Z","updatedAt":"2026-11-12T01:25:20.118Z","__v":0},{"_id":"6af51496ae101f36115a70e4","name":"Test Cliente","email":"cliente.prueba@example.com","phone":"+56912345678","subject":"Prueba de seguridad","message":"Este es un mensaje de prueba para verificar validacion y rate limit.","status":"new","emailStatus":"skipped","createdAt":"2026-11-12T01:21:26.350Z","updatedAt":"2026-11-12T01:21:26.350Z","__v":0},{"_id":"6af51495ae101f36115a70e1","name":"Test Cliente","email":"cliente.prueba@example.com","phone":"+56912345678","subject":"Prueba de seguridad","message":"Este es un mensaje de prueba para verificar validacion y rate limit.","status":"new","emailStatus":"skipped","createdAt":"2026-11-12T01:21:25.664Z","updatedAt":"2026-11-12T01:21:25.664Z","__v":0},{"_id":"6af51494ae101f36115a70de","name":"Test Cliente","email":"cliente.prueba@example.com","phone":"+56912345678","subject":"Prueba de seguridad","message":"Este es un mensaje de prueba para verificar validacion y rate limit.","status":"new","emailStatus":"skipped","createdAt":"2026-11-12T01:21:24.584Z","updatedAt":"2026-11-12T01:21:24.584Z","__v":0},{"_id":"6af51493ae101f36115a70db","name":"Test Cliente","email":"cliente.prueba@example.com","phone":"+56912345678","subject":"Prueba de seguridad","message":"Este es un mensaje de prueba para verificar validacion y rate limit.","status":"new","emailStatus":"skipped","createdAt":"2026-11-12T01:21:23.886Z","updatedAt":"2026-11-12T01:21:23.886Z","__v":0},{"_id":"6af51493ae101f36115a70d8","name":"Test Cliente","email":"cliente.prueba@example.com","phone":"+56912345678","subject":"Prueba de seguridad","message":"Este es un mensaje de prueba para verificar validacion y rate limit.","status":"new","emailStatus":"skipped","createdAt":"2026-11-12T01:21:23.110Z","updatedAt":"2026-11-12T01:21:23.110Z","__v":0},{"_id":"6af5148cae101f36115a70d5","name":"Test Cliente","email":"cliente.prueba@example.com","phone":"+56912345678","subject":"Prueba de seguridad","message":"Este es un mensaje de prueba para verificar validacion y rate limit.","status":"new","emailStatus":"skipped","createdAt":"2026-11-12T01:21:16.446Z","updatedAt":"2026-11-12T01:21:16.446Z","__v":0},{"_id":"6af5148bae101f36115a70d2","name":"Test Cliente","email":"cliente.prueba@example.com","phone":"+56912345678","subject":"Prueba de seguridad","message":"Este es un mensaje de prueba para verificar validacion y rate limit.","status":"new","emailStatus":"skipped","createdAt":"2026-11-12T01:21:15.758Z","updatedAt":"2026-11-12T01:21:15.758Z","__v":0},{"_id":"6af5148bae101f36115a70cf","name":"Test Cliente","email":"cliente.prueba@example.com","phone":"+56912345678","subject":"Prueba de seguridad","message":"Este es un mensaje de prueba para verificar validacion y rate limit.","status":"new","emailStatus":"skipped","createdAt":"2026-11-12T01:21:15.073Z","updatedAt":"2026-11-12T01:21:15.073Z","__v":0},{"_id":"6af5148aae101f36115a70cc","name":"Test Cliente","email":"cliente.prueba@example.com","phone":"+56912345678","subject":"Prueba de seguridad","message":"Este es un mensaje de prueba para verificar validacion y rate limit.","status":"new","emailStatus":"skipped","createdAt":"2026-11-12T01:21:14.351Z","updatedAt":"2026-11-12T01:21:14.351Z","__v":0},{"_id":"6af51489ae101f36115a70c9","name":"Test Cliente","email":"cliente.prueba@example.com","phone":"+56912345678","subject":"Prueba de seguridad","message":"Este es un mensaje de prueba para verificar validacion y rate limit.","status":"new","emailStatus":"skipped","createdAt":"2026-11-12T01:21:13.643Z","updatedAt":"2026-11-12T01:21:13.643Z","__v":0},{"_id":"6af51488ae101f36115a70c6","name":"Test Cliente","email":"cliente.prueba@example.com","phone":"+56912345678","subject":"Prueba de seguridad","message":"Este es un mensaje de prueba para verificar validacion y rate limit.","status":"new","emailStatus":"skipped","createdAt":"2026-11-12T01:21:12.869Z","updatedAt":"2026-11-12T01:21:12.869Z","__v":0}]}
