@@ -82,9 +82,6 @@ formularios).
 | H-03 | `npm audit` (SCA) | A06 Vulnerable Components | `react-router-dom` < 7.18.0 | `docs/evidencias/npm-audit-inicial-frontend.json` (GHSA-wrjc-x8rr-h8h6, GHSA-337j-9hxr-rhxg) | Media | Redirección abierta en `Link`/`useNavigate` e inyección de constructor en hidratación SSR (no usada por la SPA) | Actualizado a `react-router-dom@7.18.5` y build verificado (commit `56960cd`) | `docs/evidencias/npm-audit-final-frontend.json`: 0 vulnerabilidades | Corregido |
 | H-04 | OWASP ZAP Baseline (DAST) | A05 Security Misconfiguration | CSP con comodín en `img-src` (`https:`) | `docs/evidencias/zap-inicial.html`, alerta 10055 | Media | Mayor superficie para carga de recursos externos | Aceptado: se mantiene `https:` para imágenes remotas de servicios/redes; se documenta como riesgo aceptado R-05 | Re-escaneo mantiene la alerta | Aceptado |
 | H-05 | OWASP ZAP Baseline (DAST) | A05 Security Misconfiguration | `style-src 'unsafe-inline'` requerido por React/Vite | `docs/evidencias/zap-inicial.html`, alerta 10055 | Media | Mayor superficie para inyección de estilos | Aceptado: React usa estilos en línea; mitigado por `script-src 'self'` y escape de React | Re-escaneo mantiene la alerta | Aceptado |
-| H-06 | | | | | | | | | |
-| H-07 | | | | | | | | | |
-| H-08 | | | | | | | | | |
 
 ### Hipótesis iniciales a verificar con el escaneo
 
