@@ -27,6 +27,22 @@ function Loading({ loading, label = 'Cargando...' }) {
   return <p className="muted">{label}</p>;
 }
 
+function Modal({ title, children, onClose }) {
+  return (
+    <div className="modal-backdrop" onClick={onClose}>
+      <div className="modal-card" onClick={(event) => event.stopPropagation()}>
+        <div className="section-heading">
+          <h3>{title}</h3>
+          <button type="button" className="btn btn-ghost btn-sm" onClick={onClose}>
+            Cerrar
+          </button>
+        </div>
+        {children}
+      </div>
+    </div>
+  );
+}
+
 /* ------------------------------- Reservas ------------------------------- */
 function ReservationsTab() {
   const [items, setItems] = useState([]);
@@ -134,6 +150,8 @@ const EMPTY_SERVICE = {
 function ServicesTab() {
   const [items, setItems] = useState([]);
   const [form, setForm] = useState(EMPTY_SERVICE);
+  const [editing, setEditing] = useState(null);
+  const [editForm, setEditForm] = useState(EMPTY_SERVICE);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState('');
 
@@ -181,6 +199,49 @@ function ServicesTab() {
   const remove = async (service) => {
     try {
       await api.deleteService(service._id);
+      await load();
+    } catch (err) {
+      setError(err.message);
+    }
+  };
+
+  const openEdit = (service) => {
+    setEditing(service);
+    setEditForm({
+      name: service.name || '',
+      description: service.description || '',
+      durationMin: service.durationMin || 60,
+      price: service.price || 0,
+      capacity: service.capacity || 1,
+      active: service.active !== false,
+    });
+  };
+
+  const closeEdit = () => {
+    setEditing(null);
+  };
+
+  const changeEdit = (event) => {
+    const { name, value, type, checked } = event.target;
+    setEditForm((current) => ({
+      ...current,
+      [name]: type === 'checkbox' ? checked : value,
+    }));
+  };
+
+  const saveEdit = async (event) => {
+    event.preventDefault();
+    if (!editing) return;
+    try {
+      await api.updateService(editing._id, {
+        name: editForm.name,
+        description: editForm.description,
+        durationMin: Number(editForm.durationMin),
+        price: Number(editForm.price),
+        capacity: Number(editForm.capacity),
+        active: editForm.active,
+      });
+      setEditing(null);
       await load();
     } catch (err) {
       setError(err.message);
@@ -285,6 +346,9 @@ function ServicesTab() {
                   </span>
                 </td>
                 <td className="table-actions">
+                  <button type="button" className="btn btn-ghost btn-sm" onClick={() => openEdit(service)}>
+                    Editar
+                  </button>
                   <button type="button" className="btn btn-ghost btn-sm" onClick={() => toggle(service)}>
                     {service.active ? 'Desactivar' : 'Activar'}
                   </button>
@@ -304,6 +368,44 @@ function ServicesTab() {
           </tbody>
         </table>
       </div>
+
+      {editing && (
+        <Modal title="Editar servicio" onClose={closeEdit}>
+          <form className="admin-form" onSubmit={saveEdit}>
+            <div className="field-row">
+              <label className="field">
+                <span>Nombre</span>
+                <input name="name" value={editForm.name} onChange={changeEdit} maxLength={80} required />
+              </label>
+              <label className="field">
+                <span>Duracion (min)</span>
+                <input type="number" name="durationMin" min="15" max="480" value={editForm.durationMin} onChange={changeEdit} required />
+              </label>
+            </div>
+            <label className="field">
+              <span>Descripcion</span>
+              <textarea name="description" rows="2" value={editForm.description} onChange={changeEdit} maxLength={500} required />
+            </label>
+            <div className="field-row">
+              <label className="field">
+                <span>Valor (CLP)</span>
+                <input type="number" name="price" min="0" value={editForm.price} onChange={changeEdit} required />
+              </label>
+              <label className="field">
+                <span>Cupos por horario</span>
+                <input type="number" name="capacity" min="1" max="100" value={editForm.capacity} onChange={changeEdit} required />
+              </label>
+            </div>
+            <label className="field checkbox-field">
+              <input type="checkbox" name="active" checked={editForm.active} onChange={changeEdit} />
+              <span>Servicio activo</span>
+            </label>
+            <button type="submit" className="btn btn-primary btn-sm">
+              Guardar cambios
+            </button>
+          </form>
+        </Modal>
+      )}
     </section>
   );
 }
@@ -405,6 +507,8 @@ const EMPTY_FAQ = { question: '', answer: '', category: 'General', keywords: '' 
 function FaqsTab() {
   const [items, setItems] = useState([]);
   const [form, setForm] = useState(EMPTY_FAQ);
+  const [editing, setEditing] = useState(null);
+  const [editForm, setEditForm] = useState(EMPTY_FAQ);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState('');
 
@@ -452,6 +556,48 @@ function FaqsTab() {
   const remove = async (faq) => {
     try {
       await api.deleteFaq(faq._id);
+      await load();
+    } catch (err) {
+      setError(err.message);
+    }
+  };
+
+  const openEdit = (faq) => {
+    setEditing(faq);
+    setEditForm({
+      question: faq.question || '',
+      answer: faq.answer || '',
+      category: faq.category || 'General',
+      keywords: (faq.keywords || []).join(', '),
+      active: faq.active !== false,
+    });
+  };
+
+  const closeEdit = () => setEditing(null);
+
+  const changeEdit = (event) => {
+    const { name, value, type, checked } = event.target;
+    setEditForm((current) => ({
+      ...current,
+      [name]: type === 'checkbox' ? checked : value,
+    }));
+  };
+
+  const saveEdit = async (event) => {
+    event.preventDefault();
+    if (!editing) return;
+    try {
+      await api.updateFaq(editing._id, {
+        question: editForm.question,
+        answer: editForm.answer,
+        category: editForm.category,
+        keywords: editForm.keywords
+          .split(',')
+          .map((item) => item.trim())
+          .filter(Boolean),
+        active: editForm.active,
+      });
+      setEditing(null);
       await load();
     } catch (err) {
       setError(err.message);
@@ -537,6 +683,9 @@ function FaqsTab() {
                   </span>
                 </td>
                 <td className="table-actions">
+                  <button type="button" className="btn btn-ghost btn-sm" onClick={() => openEdit(faq)}>
+                    Editar
+                  </button>
                   <button type="button" className="btn btn-ghost btn-sm" onClick={() => toggle(faq)}>
                     {faq.active ? 'Desactivar' : 'Activar'}
                   </button>
@@ -556,6 +705,38 @@ function FaqsTab() {
           </tbody>
         </table>
       </div>
+
+      {editing && (
+        <Modal title="Editar pregunta frecuente" onClose={closeEdit}>
+          <form className="admin-form" onSubmit={saveEdit}>
+            <label className="field">
+              <span>Pregunta</span>
+              <input name="question" value={editForm.question} onChange={changeEdit} maxLength={200} required />
+            </label>
+            <label className="field">
+              <span>Respuesta</span>
+              <textarea name="answer" rows="3" value={editForm.answer} onChange={changeEdit} maxLength={1000} required />
+            </label>
+            <div className="field-row">
+              <label className="field">
+                <span>Categoria</span>
+                <input name="category" value={editForm.category} onChange={changeEdit} maxLength={60} />
+              </label>
+              <label className="field">
+                <span>Palabras clave (separadas por coma)</span>
+                <input name="keywords" value={editForm.keywords} onChange={changeEdit} maxLength={300} />
+              </label>
+            </div>
+            <label className="field checkbox-field">
+              <input type="checkbox" name="active" checked={editForm.active} onChange={changeEdit} />
+              <span>Pregunta activa</span>
+            </label>
+            <button type="submit" className="btn btn-primary btn-sm">
+              Guardar cambios
+            </button>
+          </form>
+        </Modal>
+      )}
     </section>
   );
 }
@@ -566,6 +747,8 @@ const EMPTY_SOCIAL = { network: '', url: '' };
 function SocialTab() {
   const [items, setItems] = useState([]);
   const [form, setForm] = useState(EMPTY_SOCIAL);
+  const [editing, setEditing] = useState(null);
+  const [editForm, setEditForm] = useState(EMPTY_SOCIAL);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState('');
 
@@ -613,6 +796,41 @@ function SocialTab() {
   const remove = async (link) => {
     try {
       await api.deleteSocial(link._id);
+      await load();
+    } catch (err) {
+      setError(err.message);
+    }
+  };
+
+  const openEdit = (link) => {
+    setEditing(link);
+    setEditForm({
+      network: link.network || '',
+      url: link.url || '',
+      active: link.active !== false,
+    });
+  };
+
+  const closeEdit = () => setEditing(null);
+
+  const changeEdit = (event) => {
+    const { name, value, type, checked } = event.target;
+    setEditForm((current) => ({
+      ...current,
+      [name]: type === 'checkbox' ? checked : value,
+    }));
+  };
+
+  const saveEdit = async (event) => {
+    event.preventDefault();
+    if (!editing) return;
+    try {
+      await api.updateSocial(editing._id, {
+        network: editForm.network,
+        url: editForm.url,
+        active: editForm.active,
+      });
+      setEditing(null);
       await load();
     } catch (err) {
       setError(err.message);
@@ -684,6 +902,9 @@ function SocialTab() {
                   </span>
                 </td>
                 <td className="table-actions">
+                  <button type="button" className="btn btn-ghost btn-sm" onClick={() => openEdit(link)}>
+                    Editar
+                  </button>
                   <button type="button" className="btn btn-ghost btn-sm" onClick={() => toggle(link)}>
                     {link.active ? 'Desactivar' : 'Activar'}
                   </button>
@@ -703,6 +924,30 @@ function SocialTab() {
           </tbody>
         </table>
       </div>
+
+      {editing && (
+        <Modal title="Editar enlace social" onClose={closeEdit}>
+          <form className="admin-form" onSubmit={saveEdit}>
+            <div className="field-row">
+              <label className="field">
+                <span>Red</span>
+                <input name="network" value={editForm.network} onChange={changeEdit} maxLength={40} required />
+              </label>
+              <label className="field">
+                <span>URL completa</span>
+                <input type="url" name="url" value={editForm.url} onChange={changeEdit} maxLength={300} required />
+              </label>
+            </div>
+            <label className="field checkbox-field">
+              <input type="checkbox" name="active" checked={editForm.active} onChange={changeEdit} />
+              <span>Enlace activo</span>
+            </label>
+            <button type="submit" className="btn btn-primary btn-sm">
+              Guardar cambios
+            </button>
+          </form>
+        </Modal>
+      )}
     </section>
   );
 }
