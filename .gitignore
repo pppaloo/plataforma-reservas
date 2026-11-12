@@ -21,3 +21,6 @@ Thumbs.db
 # Evidencias locales opcionales
 docs/evidencias/*.html
 docs/evidencias/*.json
+!docs/evidencias/zap-inicial.html
+!docs/evidencias/zap-inicial.json
+!docs/evidencias/codeql-*.png
