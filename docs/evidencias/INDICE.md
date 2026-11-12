@@ -9,7 +9,7 @@
 - [ ] Evidencia de respaldo/restauración con fecha y responsable.
 
 ## Seguridad
-- [ ] Reporte OWASP ZAP Baseline (`zap-baseline-report.html`).
+- [x] Reporte OWASP ZAP Baseline (`zap-inicial.html`, `zap-inicial.json`, `zap-inicial.md`).
 - [x] Resultado de CodeQL: estado success, 0 alertas (run 43136615875).
 - [x] `npm audit` de backend y frontend (0 vulnerabilidades).
 - [x] Pruebas 401/403, NoSQL injection, rate limit y prompt injection (`pruebas-manuales-resumen.md`).

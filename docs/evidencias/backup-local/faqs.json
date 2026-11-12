@@ -1,0 +1,111 @@
+[
+  {
+    "_id": "6af3a99af8677e2e4fdaf57e",
+    "question": "Cuales son los horarios de atencion?",
+    "answer": "Atendemos de lunes a viernes de 08:00 a 20:00 y sabados de 09:00 a 14:00.",
+    "category": "Horarios",
+    "keywords": [
+      "horario",
+      "abierto",
+      "atencion",
+      "sabado",
+      "domingo"
+    ],
+    "active": true,
+    "order": 1,
+    "__v": 0,
+    "createdAt": "2026-11-10T23:32:42.136Z",
+    "updatedAt": "2026-11-10T23:32:42.136Z"
+  },
+  {
+    "_id": "6af3a99af8677e2e4fdaf57f",
+    "question": "Cuanto cuestan los servicios?",
+    "answer": "Los valores van desde $18.000 y dependen del servicio. Puedes ver el detalle en la seccion Servicios.",
+    "category": "Precios",
+    "keywords": [
+      "precio",
+      "valor",
+      "costo",
+      "cuanto",
+      "tarifa"
+    ],
+    "active": true,
+    "order": 2,
+    "__v": 0,
+    "createdAt": "2026-11-10T23:32:42.136Z",
+    "updatedAt": "2026-11-10T23:32:42.136Z"
+  },
+  {
+    "_id": "6af3a99af8677e2e4fdaf580",
+    "question": "Como puedo cancelar o reagendar una reserva?",
+    "answer": "Ingresa a Mis reservas, selecciona la reserva y presiona Cancelar. Las reagendas se coordinan por telefono.",
+    "category": "Reservas",
+    "keywords": [
+      "cancelar",
+      "reagendar",
+      "anular",
+      "cambiar",
+      "reserva"
+    ],
+    "active": true,
+    "order": 3,
+    "__v": 0,
+    "createdAt": "2026-11-10T23:32:42.136Z",
+    "updatedAt": "2026-11-10T23:32:42.136Z"
+  },
+  {
+    "_id": "6af3a99af8677e2e4fdaf581",
+    "question": "Donde estan ubicados?",
+    "answer": "Estamos en Av. Los Carrera 1234, Concepcion. Hay estacionamiento disponible en el mismo edificio.",
+    "category": "Ubicacion",
+    "keywords": [
+      "ubicacion",
+      "direccion",
+      "donde",
+      "llegar",
+      "estacionamiento"
+    ],
+    "active": true,
+    "order": 4,
+    "__v": 0,
+    "createdAt": "2026-11-10T23:32:42.136Z",
+    "updatedAt": "2026-11-10T23:32:42.136Z"
+  },
+  {
+    "_id": "6af3a99af8677e2e4fdaf582",
+    "question": "Como puedo contactar a un ejecutivo?",
+    "answer": "Escríbenos desde la seccion Contacto o al correo contacto@reservapro.cl. Respondemos en menos de 24 horas habiles.",
+    "category": "Contacto",
+    "keywords": [
+      "contacto",
+      "ejecutivo",
+      "telefono",
+      "correo",
+      "hablar",
+      "persona"
+    ],
+    "active": true,
+    "order": 5,
+    "__v": 0,
+    "createdAt": "2026-11-10T23:32:42.136Z",
+    "updatedAt": "2026-11-10T23:32:42.136Z"
+  },
+  {
+    "_id": "6af3a99af8677e2e4fdaf583",
+    "question": "Que medios de pago aceptan?",
+    "answer": "Aceptamos transferencia bancaria, tarjetas de debito y credito, y pago presencial en recepcion.",
+    "category": "Pagos",
+    "keywords": [
+      "pago",
+      "tarjeta",
+      "transferencia",
+      "efectivo",
+      "debito"
+    ],
+    "active": true,
+    "order": 6,
+    "__v": 0,
+    "createdAt": "2026-11-10T23:32:42.136Z",
+    "updatedAt": "2026-11-10T23:32:42.136Z"
+  }
+]

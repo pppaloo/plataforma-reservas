@@ -1,0 +1,54 @@
+[
+  {
+    "_id": "6af3a999f8677e2e4fdaf573",
+    "name": "Masaje descontracturante",
+    "description": "Sesion de 60 minutos orientada a liberar tension muscular y mejorar la circulacion.",
+    "durationMin": 60,
+    "price": 35000,
+    "capacity": 2,
+    "active": true,
+    "order": 1,
+    "__v": 0,
+    "createdAt": "2026-11-10T23:32:41.835Z",
+    "updatedAt": "2026-11-10T23:32:41.835Z"
+  },
+  {
+    "_id": "6af3a999f8677e2e4fdaf574",
+    "name": "Kinesiologia deportiva",
+    "description": "Evaluacion y tratamiento de lesiones deportivas con plan de recuperacion personalizado.",
+    "durationMin": 45,
+    "price": 42000,
+    "capacity": 1,
+    "active": true,
+    "order": 2,
+    "__v": 0,
+    "createdAt": "2026-11-10T23:32:41.835Z",
+    "updatedAt": "2026-11-10T23:32:41.835Z"
+  },
+  {
+    "_id": "6af3a999f8677e2e4fdaf575",
+    "name": "Evaluacion nutricional",
+    "description": "Analisis de composicion corporal y plan alimentario adaptado a tus objetivos.",
+    "durationMin": 50,
+    "price": 30000,
+    "capacity": 3,
+    "active": true,
+    "order": 3,
+    "__v": 0,
+    "createdAt": "2026-11-10T23:32:41.836Z",
+    "updatedAt": "2026-11-10T23:32:41.836Z"
+  },
+  {
+    "_id": "6af3a999f8677e2e4fdaf576",
+    "name": "Clase de yoga privada",
+    "description": "Sesion guiada de yoga y respiracion para reducir el estres, hasta 6 participantes.",
+    "durationMin": 60,
+    "price": 18000,
+    "capacity": 6,
+    "active": true,
+    "order": 4,
+    "__v": 0,
+    "createdAt": "2026-11-10T23:32:41.836Z",
+    "updatedAt": "2026-11-10T23:32:41.836Z"
+  }
+]

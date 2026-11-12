@@ -1,0 +1,13 @@
+[
+  {
+    "_id": "6af3a999f8677e2e4fdaf570",
+    "name": "Administrador",
+    "email": "admin@reservapro.cl",
+    "passwordHash": "$2a$12$F.wkRYJ22YNCueVt3zx9E.Ok0Xwiue0lzbZiuWpvjAOoiRRasbHRK",
+    "role": "admin",
+    "active": true,
+    "createdAt": "2026-11-10T23:32:41.653Z",
+    "updatedAt": "2026-11-10T23:32:41.653Z",
+    "__v": 0
+  }
+]
