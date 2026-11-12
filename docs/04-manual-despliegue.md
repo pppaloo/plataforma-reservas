@@ -16,8 +16,7 @@ más **MongoDB Atlas** como base de datos. El correo se envía por SMTP.
 2. **Database Access → Add New Database User**
    - Usuario: `reservas_app`
    - Contraseña: generada y guardada en un lugar seguro
-   - Privilegios: `Read and write to any database` **solo si** se acota por base; lo correcto es un
-     rol personalizado `readWrite` sobre `reservas`.
+   - Privilegios: rol personalizado `readWrite` sobre la base `reservas`
 3. **Network Access → Add IP Address**
    - Para Render Free (IP dinámica): `0.0.0.0/0`.
    - Registrar esta decisión como riesgo aceptado R-02 en el informe de seguridad.

@@ -111,6 +111,8 @@ users 1 ──── N conversations (por sessionId anónimo, sin dato personal)
 contactrequests, sociallinks y faqs son independientes
 ```
 
+![Modelo de datos: colecciones y relaciones](evidencias/diagramas/modelo-datos.png)
+
 ## 3. Validación e integridad
 
 - Tipos, rangos, longitud y enums definidos en los esquemas Mongoose (`runValidators: true` en
@@ -128,8 +130,7 @@ En Atlas: **Database Access → Add New Database User**
 
 - Username: `reservas_app`
 - Password: generada y guardada en el gestor de secretos / variable de entorno
-- Built-in Role: **Read and write to any database** solo si se restringe por base; alternativa
-  recomendada: rol personalizado con `readWrite` sobre `reservas`.
+- Built-in Role: rol personalizado `readWrite` sobre la base `reservas`
 
 Equivalente en `mongosh`:
 

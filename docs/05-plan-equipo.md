@@ -23,7 +23,7 @@ integrante debe poder explicar al menos una decisión del módulo de otro.
 | Dom 8 nov | Reservas, panel admin completo, contacto, chatbot y redes | Javiera + Benjamín | Los 12 escenarios de defensa son ejecutables en local |
 | Lun 9 nov | Despliegue en Render, variables, correos reales, CI en verde | Benjamín | URL HTTPS operativa y pipeline aprobado |
 | Mar 10 nov | Escaneo inicial: ZAP + npm audit + CodeQL; registrar hallazgos | Paloma | Informe con tabla inicial y evidencias guardadas |
-| Mié 11 nov | Correcciones, re-escaneo, informe comparativo, README, ensayo de defensa | Todos | Tabla antes/después completa y ensayo cronometrado |
+| Mié 11 nov | Correcciones de dependencias, verificación con `npm audit` y pruebas manuales, informe final, README y ensayo de defensa | Todos | Tabla antes/después completa y ensayo cronometrado |
 | Jue 12 nov | Entrega en EVA y verificación final | Todos | Enlaces, documentos y credenciales cargados y visibles |
 
 > El día 11 es colchón real. No planificar correcciones para el mismo día de la entrega.
@@ -91,7 +91,7 @@ integrante debe poder explicar al menos una decisión del módulo de otro.
 | 9 | Repositorio y pipeline CI/CD | GitHub → Actions | CI en verde, CD en `main`, ramas y PR |
 | 10 | Resultado del análisis de vulnerabilidades | Informe + artefacto ZAP | herramientas, severidades y alcance autorizado |
 | 11 | Explicar una vulnerabilidad, impacto y solución | Ejemplo H-01 | causa, riesgo y commit de corrección |
-| 12 | Mostrar el análisis posterior | Re-escaneo | comparación antes/después y alerta ausente |
+| 12 | Mostrar el análisis posterior | Informe + `npm audit` final + capturas | comparación antes/después y dependencias sin vulnerabilidades |
 
 ### Frases que conviene tener preparadas
 

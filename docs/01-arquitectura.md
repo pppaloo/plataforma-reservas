@@ -44,32 +44,10 @@ La plataforma resuelve tres problemas concretos:
 
 ## 4. Arquitectura
 
-```
-┌──────────────────────────────────────────────────────────────┐
-│  Navegador                                                   │
-│  React 18 + Vite + React Router                              │
-│  - Access token en memoria (no en localStorage)              │
-│  - Refresh token en cookie httpOnly                          │
-└───────────────────────────┬──────────────────────────────────┘
-                            │ HTTPS / JSON
-┌───────────────────────────▼──────────────────────────────────┐
-│  Express 4 (Node.js 20)                                      │
-│  ┌────────────────────────────────────────────────────────┐  │
-│  │ Helmet · CORS · rate limit · cookie-parser · JSON 100kb│  │
-│  ├────────────────────────────────────────────────────────┤  │
-│  │ Rutas → validación Zod → authenticate → requireRole    │  │
-│  ├────────────────────────────────────────────────────────┤  │
-│  │ Controladores → modelos Mongoose → servicios           │  │
-│  └────────────────────────────────────────────────────────┘  │
-│  static: build de React (mismo origen en producción)         │
-└───────┬───────────────────────────────┬──────────────────────┘
-        │                               │
-┌───────▼─────────────┐        ┌────────▼─────────────────────┐
-│ MongoDB Atlas       │        │ SMTP (Nodemailer)            │
-│ 7 colecciones       │        │ correo institucional +       │
-│ usuario readWrite   │        │ confirmación al cliente      │
-└─────────────────────┘        └──────────────────────────────┘
-```
+El frontend React se sirve desde el mismo origen que la API, de modo que las cookies de sesión
+funcionan sin CORS cruzado. La figura siguiente resume los componentes y el flujo de datos.
+
+![Arquitectura de ReservaPro](evidencias/diagramas/arquitectura.png)
 
 ### Componentes
 
@@ -134,6 +112,8 @@ flowchart LR
   GA -->|ZAP baseline manual| Render
   Usuario[Navegador] -->|HTTPS| Render
 ```
+
+![Modelo de despliegue](evidencias/diagramas/despliegue.png)
 
 Render ejecuta `npm ci` del backend y frontend, compila Vite y arranca Express. Express sirve el
 build estático y la API desde el mismo origen. Las variables sensibles se configuran en el panel de

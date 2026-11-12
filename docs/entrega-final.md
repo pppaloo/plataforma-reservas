@@ -20,11 +20,11 @@
 - [x] SCA: 0 vulnerabilidades
 - [x] CodeQL: 0 alertas
 - [x] OWASP ZAP ejecutado: 0 High, 2 Medium, 1 Low, 9 Informational
-- [x] Pruebas manuales: 401, 403, NoSQL injection, rate limit, prompt injection
+- [x] Pruebas manuales: 401, 403, inyección NoSQL, rate limit, prompt injection, XSS, exposición de datos y enumeración de usuarios
 - [x] XSS guardado como texto (evidencia API + captura)
 - [x] Cabeceras HTTP documentadas
-- [ ] Capturas visuales de CodeQL en `docs/evidencias/`
-- [ ] Reporte ZAP guardado en `docs/evidencias/zap-inicial.html` y `.json`
+- [x] Capturas visuales de CodeQL en `docs/evidencias/`
+- [x] Reporte ZAP guardado en `docs/evidencias/zap-inicial.html` y `.json`
 
 ## Evidencias
 - [x] `docs/evidencias/db-evidencia.md`
@@ -39,10 +39,12 @@
 - [x] `docs/evidencias/xss-panel.png`
 - [x] `docs/evidencias/cabeceras-http.txt`
 - [x] `docs/evidencias/pruebas-manuales-resumen.md`
-- [ ] `docs/evidencias/zap-inicial.html`
-- [ ] `docs/evidencias/zap-inicial.json`
-- [ ] `docs/evidencias/codeql-alertas.png`
-- [ ] `docs/evidencias/codeql-final.png`
+- [x] `docs/evidencias/zap-inicial.html`
+- [x] `docs/evidencias/zap-inicial.json`
+- [x] `docs/evidencias/codeql-alertas.png`
+- [x] `docs/evidencias/codeql-final.png`
+- [x] `docs/evidencias/capturas/` (11 capturas de las pruebas manuales)
+- [x] `docs/evidencias/capturas/INDICE.md`
 
 ## Entrega en EVA
 - [x] URL pública
