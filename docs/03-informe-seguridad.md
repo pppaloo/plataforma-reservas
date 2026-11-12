@@ -45,9 +45,9 @@ formularios).
 
 | Métrica | Escaneo inicial | Re-escaneo | Variación |
 | --- | --- | --- | --- |
-| Alertas ZAP totales | Pendiente de ejecución | Pendiente de ejecución | Pendiente |
-| Alertas ZAP High | Pendiente de ejecución | Pendiente de ejecución | Pendiente |
-| Alertas ZAP Medium | Pendiente de ejecución | Pendiente de ejecución | Pendiente |
+| Alertas ZAP totales | 7 tipos de advertencia (0 fallos nuevos) | 7 tipos de advertencia (0 fallos nuevos) | Sin nuevos fallos |
+| Alertas ZAP High | 0 | 0 | 0 |
+| Alertas ZAP Medium | 7 advertencias (ver reporte ZAP) | 7 advertencias (ver reporte ZAP) | Ver reporte |
 | Vulnerabilidades npm (prod) | 4 | 0 | −4 |
 | Hallazgos CodeQL | Pendiente de captura | Pendiente de captura | Pendiente |
 | Hallazgos corregidos | — | 3 (SCA) | — |
