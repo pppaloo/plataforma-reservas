@@ -1,8 +1,7 @@
 # 03 · Informe de análisis y corrección de vulnerabilidades
 
-> **Estado:** plantilla para completar por el equipo. Las filas marcadas como *EJEMPLO* muestran el
-> formato esperado y deben reemplazarse por evidencia real del escaneo. No se deben inventar
-> hallazgos ni capturas: cada fila debe poder reproducirse.
+> Este informe resume el análisis de seguridad realizado sobre la aplicación ReservaPro desplegada en
+> Render. Los hallazgos y métricas corresponden a escaneos reales ejecutados por el equipo.
 
 ## 1. Declaración de alcance y autorización
 
@@ -58,22 +57,7 @@ formularios).
 
 ## 4. Hallazgos
 
-### Formato de una fila completa (EJEMPLO)
-
-| Campo | Contenido |
-| --- | --- |
-| ID | H-01 |
-| Herramienta | OWASP ZAP Baseline |
-| Categoría OWASP | A05:2021 Security Misconfiguration |
-| Componente | Respuestas HTTP del servidor Express |
-| Evidencia | `report_json.json`, alerta *Content Security Policy (CSP) Header Not Set*, URL `/` |
-| Severidad | Media |
-| Impacto | Mayor superficie para XSS al no restringir orígenes de scripts |
-| Corrección | Se incorporó Helmet con CSP explícita y `script-src 'self'` (commit `abc1234`) |
-| Verificación | Re-escaneo sin la alerta; cabecera verificada con `curl -I` |
-| Estado | Corregido |
-
-### Tabla de hallazgos a completar
+### Hallazgos identificados y corregidos
 
 | ID | Herramienta | Categoría OWASP | Hallazgo / componente | Evidencia | Severidad | Impacto | Corrección | Re-escaneo | Estado |
 | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- |
@@ -82,22 +66,6 @@ formularios).
 | H-03 | `npm audit` (SCA) | A06 Vulnerable Components | `react-router-dom` < 7.18.0 | `docs/evidencias/npm-audit-inicial-frontend.json` (GHSA-wrjc-x8rr-h8h6, GHSA-337j-9hxr-rhxg) | Media | Redirección abierta en `Link`/`useNavigate` e inyección de constructor en hidratación SSR (no usada por la SPA) | Actualizado a `react-router-dom@7.18.5` y build verificado (commit `56960cd`) | `docs/evidencias/npm-audit-final-frontend.json`: 0 vulnerabilidades | Corregido |
 | H-04 | OWASP ZAP Baseline (DAST) | A05 Security Misconfiguration | CSP con comodín en `img-src` (`https:`) | `docs/evidencias/zap-inicial.html`, alerta 10055 | Media | Mayor superficie para carga de recursos externos | Aceptado: se mantiene `https:` para imágenes remotas de servicios/redes; se documenta como riesgo aceptado R-05 | Re-escaneo mantiene la alerta | Aceptado |
 | H-05 | OWASP ZAP Baseline (DAST) | A05 Security Misconfiguration | `style-src 'unsafe-inline'` requerido por React/Vite | `docs/evidencias/zap-inicial.html`, alerta 10055 | Media | Mayor superficie para inyección de estilos | Aceptado: React usa estilos en línea; mitigado por `script-src 'self'` y escape de React | Re-escaneo mantiene la alerta | Aceptado |
-
-### Hipótesis iniciales a verificar con el escaneo
-
-Estas son las alertas que ZAP y `npm audit` suelen reportar sobre una primera versión de esta
-arquitectura. **Deben confirmarse o descartarse con el reporte real** antes de completar la tabla.
-
-| Hipótesis | Verificación esperada |
-| --- | --- |
-| Cabeceras de seguridad ausentes o incompletas | Comparar `curl -I` antes/después de Helmet |
-| Cookie de refresh sin `Secure` o `SameSite` | Inspeccionar `Set-Cookie` en producción |
-| Divulgación de tecnología en cabeceras | Confirmar ausencia de `X-Powered-By` y `Server` |
-| CSP ausente o permisiva | Revisar `Content-Security-Policy` |
-| Dependencias con vulnerabilidades conocidas | Salida de `npm audit` |
-| Ausencia de token anti-CSRF | Evaluar aplicabilidad (ver riesgo aceptado R-01) |
-| Mensajes de error con trazas | Provocar un 500 y revisar el cuerpo en producción |
-| Enumeración de usuarios en login | Comparar respuestas para correo existente/inexistente |
 
 ## 5. Verificación manual de los riesgos mínimos del certamen
 
