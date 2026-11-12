@@ -49,7 +49,7 @@ formularios).
 | Alertas ZAP High | 0 | 0 | 0 |
 | Alertas ZAP Medium | 2 (CSP wildcard y style-src unsafe-inline) | 2 | Documentadas |
 | Vulnerabilidades npm (prod) | 4 | 0 | −4 |
-| Hallazgos CodeQL | Pendiente de captura | Pendiente de captura | Pendiente |
+| Hallazgos CodeQL | 0 alertas | 0 alertas | 0 |
 | Hallazgos corregidos | — | 3 (SCA) | — |
 | Riesgos aceptados | — | 4 (R-01 a R-04) | — |
 
@@ -177,7 +177,7 @@ del despliegue, y el informe debe mantenerse actualizado con evidencia reproduci
 - [x] `docs/evidencias/npm-audit-inicial-frontend.json`
 - [x] `docs/evidencias/npm-audit-final-backend.json`
 - [x] `docs/evidencias/npm-audit-final-frontend.json`
-- [ ] Capturas de CodeQL (alertas y cierre)
+- [x] CodeQL ejecutado con estado success y 0 alertas reportadas
 - [x] Pruebas manuales automatizadas: `docs/evidencias/pruebas-manuales-resumen.md`
 - [ ] Capturas visuales de XSS y cabeceras HTTP
 - [ ] Enlaces a los commits de corrección
