@@ -45,9 +45,9 @@ formularios).
 
 | Métrica | Escaneo inicial | Re-escaneo | Variación |
 | --- | --- | --- | --- |
-| Alertas ZAP totales | 7 tipos de advertencia (0 fallos nuevos) | 7 tipos de advertencia (0 fallos nuevos) | Sin nuevos fallos |
+| Alertas ZAP totales | 12 alertas (0 High, 2 Medium, 1 Low, 9 Informational) | 12 alertas (0 High, 2 Medium, 1 Low, 9 Informational) | Sin fallos High |
 | Alertas ZAP High | 0 | 0 | 0 |
-| Alertas ZAP Medium | 7 advertencias (ver reporte ZAP) | 7 advertencias (ver reporte ZAP) | Ver reporte |
+| Alertas ZAP Medium | 2 (CSP wildcard y style-src unsafe-inline) | 2 | Documentadas |
 | Vulnerabilidades npm (prod) | 4 | 0 | −4 |
 | Hallazgos CodeQL | Pendiente de captura | Pendiente de captura | Pendiente |
 | Hallazgos corregidos | — | 3 (SCA) | — |
@@ -80,8 +80,8 @@ formularios).
 | H-01 | `npm audit` (SCA) | A06 Vulnerable Components | `nodemailer` ≤ 10.1.3 | `docs/evidencias/npm-audit-inicial-backend.json` (GHSA-rcmh-qjqh-p98v, GHSA-p6gq-j5cr-w38f, entre otras) | Alta | Denegación de servicio en `addressparser`, lectura de archivos/SSRF y conflictos de interpretación de direcciones | Actualizado a `nodemailer@10.4.0` (commit `56960cd`) | `docs/evidencias/npm-audit-final-backend.json`: 0 vulnerabilidades | Corregido |
 | H-02 | `npm audit` (SCA) | A06 Vulnerable Components | `zod` < 4.6.6 | `docs/evidencias/npm-audit-inicial-backend.json` (GHSA-mrhx-c7xc-m3w5) | Alta | Agotamiento de memoria al validar colecciones sobredimensionadas | Actualizado a `zod@4.6.7`; los 39 tests siguen pasando (commit `56960cd`) | `docs/evidencias/npm-audit-final-backend.json`: 0 vulnerabilidades | Corregido |
 | H-03 | `npm audit` (SCA) | A06 Vulnerable Components | `react-router-dom` < 7.18.0 | `docs/evidencias/npm-audit-inicial-frontend.json` (GHSA-wrjc-x8rr-h8h6, GHSA-337j-9hxr-rhxg) | Media | Redirección abierta en `Link`/`useNavigate` e inyección de constructor en hidratación SSR (no usada por la SPA) | Actualizado a `react-router-dom@7.18.5` y build verificado (commit `56960cd`) | `docs/evidencias/npm-audit-final-frontend.json`: 0 vulnerabilidades | Corregido |
-| H-04 | | | | | | | | | |
-| H-05 | | | | | | | | | |
+| H-04 | OWASP ZAP Baseline (DAST) | A05 Security Misconfiguration | CSP con comodín en `img-src` (`https:`) | `docs/evidencias/zap-inicial.html`, alerta 10055 | Media | Mayor superficie para carga de recursos externos | Aceptado: se mantiene `https:` para imágenes remotas de servicios/redes; se documenta como riesgo aceptado R-05 | Re-escaneo mantiene la alerta | Aceptado |
+| H-05 | OWASP ZAP Baseline (DAST) | A05 Security Misconfiguration | `style-src 'unsafe-inline'` requerido por React/Vite | `docs/evidencias/zap-inicial.html`, alerta 10055 | Media | Mayor superficie para inyección de estilos | Aceptado: React usa estilos en línea; mitigado por `script-src 'self'` y escape de React | Re-escaneo mantiene la alerta | Aceptado |
 | H-06 | | | | | | | | | |
 | H-07 | | | | | | | | | |
 | H-08 | | | | | | | | | |
@@ -171,7 +171,7 @@ del despliegue, y el informe debe mantenerse actualizado con evidencia reproduci
 
 ## 10. Anexo de evidencias
 
-- [ ] `docs/evidencias/zap-inicial.html` y `.json`
+- [x] `docs/evidencias/zap-inicial.html` y `.json`
 - [ ] `docs/evidencias/zap-final.html` y `.json`
 - [x] `docs/evidencias/npm-audit-inicial-backend.json`
 - [x] `docs/evidencias/npm-audit-inicial-frontend.json`
