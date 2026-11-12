@@ -1,0 +1,35 @@
+﻿=== Token valido: GET /api/auth/me ===
+HTTP/1.1 200 OK
+Date: Thu, 12 Nov 2026 19:19:21 GMT
+Content-Type: application/json; charset=utf-8
+Transfer-Encoding: chunked
+Connection: keep-alive
+access-control-allow-credentials: true
+content-security-policy: default-src 'self';base-uri 'self';font-src 'self' data:;form-action 'self';frame-ancestors 'none';img-src 'self' data: https:;object-src 'none';script-src 'self';script-src-attr 'none';style-src 'self' 'unsafe-inline';upgrade-insecure-requests;connect-src 'self'
+cross-origin-opener-policy: same-origin
+cross-origin-resource-policy: same-origin
+etag: W/"fe-9Z1dlmAhg0QHfbttzF/Terqa1TI"
+origin-agent-cluster: ?1
+permissions-policy: camera=(), microphone=(), geolocation=(), payment=()
+ratelimit-limit: 200
+ratelimit-policy: 200;w=60
+ratelimit-remaining: 199
+ratelimit-reset: 60
+referrer-policy: no-referrer
+rndr-id: 3414d82b-ff84-4267
+Server: cloudflare
+strict-transport-security: max-age=15552000; includeSubDomains
+vary: Origin
+vary: Accept-Encoding
+x-content-type-options: nosniff
+x-dns-prefetch-control: off
+x-download-options: noopen
+x-frame-options: SAMEORIGIN
+x-permitted-cross-domain-policies: none
+x-render-origin-server: Render
+x-xss-protection: 0
+cf-cache-status: DYNAMIC
+CF-RAY: a597e3438bffb501-SCL
+alt-svc: h3=":443"; ma=86400
+
+{"ok":true,"user":{"_id":"6af3a999f8677e2e4fdaf570","name":"Administrador","email":"admin@reservapro.cl","role":"admin","active":true,"createdAt":"2026-11-10T23:32:41.653Z","updatedAt":"2026-11-12T19:19:12.200Z","lastLoginAt":"2026-11-12T19:19:12.105Z"}}

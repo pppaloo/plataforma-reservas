@@ -1,0 +1,70 @@
+﻿=== Login con correo existente (clave incorrecta) ===
+HTTP/1.1 401 Unauthorized
+Date: Thu, 12 Nov 2026 19:19:32 GMT
+Content-Type: application/json; charset=utf-8
+Transfer-Encoding: chunked
+Connection: keep-alive
+access-control-allow-credentials: true
+cf-cache-status: DYNAMIC
+content-security-policy: default-src 'self';base-uri 'self';font-src 'self' data:;form-action 'self';frame-ancestors 'none';img-src 'self' data: https:;object-src 'none';script-src 'self';script-src-attr 'none';style-src 'self' 'unsafe-inline';upgrade-insecure-requests;connect-src 'self'
+cross-origin-opener-policy: same-origin
+cross-origin-resource-policy: same-origin
+etag: W/"4c-5+31hFAzFMnw7f+tgJYMDZOo6gA"
+origin-agent-cluster: ?1
+permissions-policy: camera=(), microphone=(), geolocation=(), payment=()
+ratelimit-limit: 10
+ratelimit-policy: 10;w=900
+ratelimit-remaining: 9
+ratelimit-reset: 900
+referrer-policy: no-referrer
+rndr-id: 3fe1784a-55ca-47ff
+Server: cloudflare
+strict-transport-security: max-age=15552000; includeSubDomains
+vary: Origin
+vary: Accept-Encoding
+x-content-type-options: nosniff
+x-dns-prefetch-control: off
+x-download-options: noopen
+x-frame-options: SAMEORIGIN
+x-permitted-cross-domain-policies: none
+x-render-origin-server: Render
+x-xss-protection: 0
+CF-RAY: a597e37c5db517f9-SCL
+alt-svc: h3=":443"; ma=86400
+
+{"ok":false,"message":"Credenciales invalidas","code":"INVALID_CREDENTIALS"}
+=== Login con correo inexistente ===
+HTTP/1.1 401 Unauthorized
+Date: Thu, 12 Nov 2026 19:19:32 GMT
+Content-Type: application/json; charset=utf-8
+Transfer-Encoding: chunked
+Connection: keep-alive
+access-control-allow-credentials: true
+cf-cache-status: DYNAMIC
+content-security-policy: default-src 'self';base-uri 'self';font-src 'self' data:;form-action 'self';frame-ancestors 'none';img-src 'self' data: https:;object-src 'none';script-src 'self';script-src-attr 'none';style-src 'self' 'unsafe-inline';upgrade-insecure-requests;connect-src 'self'
+cross-origin-opener-policy: same-origin
+cross-origin-resource-policy: same-origin
+etag: W/"4c-5+31hFAzFMnw7f+tgJYMDZOo6gA"
+origin-agent-cluster: ?1
+permissions-policy: camera=(), microphone=(), geolocation=(), payment=()
+ratelimit-limit: 10
+ratelimit-policy: 10;w=900
+ratelimit-remaining: 8
+ratelimit-reset: 898
+referrer-policy: no-referrer
+rndr-id: baccd882-4a6b-4e02
+Server: cloudflare
+strict-transport-security: max-age=15552000; includeSubDomains
+vary: Origin
+vary: Accept-Encoding
+x-content-type-options: nosniff
+x-dns-prefetch-control: off
+x-download-options: noopen
+x-frame-options: SAMEORIGIN
+x-permitted-cross-domain-policies: none
+x-render-origin-server: Render
+x-xss-protection: 0
+CF-RAY: a597e38c2c7a798c-SCL
+alt-svc: h3=":443"; ma=86400
+
+{"ok":false,"message":"Credenciales invalidas","code":"INVALID_CREDENTIALS"}

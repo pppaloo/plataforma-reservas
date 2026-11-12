@@ -1,0 +1,2 @@
+﻿=== Exposicion de datos en /api/auth/me ===
+OK: sin passwordHash, refreshTokenHash ni refreshToken en la respuesta.
