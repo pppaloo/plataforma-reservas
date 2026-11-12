@@ -129,16 +129,16 @@ node -e "require('dotenv').config(); const m=require('mongoose'); const b=requir
 
 | Verificación | Comando / acción | Resultado esperado |
 | --- | --- | --- |
-| Salud | `curl https://TU-APP.onrender.com/api/health` | `{"ok":true,"status":"up"}` |
+| Salud | `curl https://proyecto-cesar.onrender.com/api/health` | `{"ok":true,"status":"up"}` |
 | HTTPS | Abrir la URL en el navegador | Candado válido |
-| Cabeceras | `curl -I https://TU-APP.onrender.com` | `Content-Security-Policy`, `Strict-Transport-Security`, `X-Content-Type-Options`, `Permissions-Policy` |
+| Cabeceras | `curl -I https://proyecto-cesar.onrender.com` | `Content-Security-Policy`, `Strict-Transport-Security`, `X-Content-Type-Options`, `Permissions-Policy` |
 | Registro | Crear cuenta desde `/registro` | 201 y sesión iniciada |
 | Login admin | `/login` con las credenciales del seed | Acceso a `/admin` |
 | Autorización | Con sesión de cliente abrir `/admin` | Mensaje de permisos; API responde 403 |
 | Reserva | Reservar una hora | Registro visible en “Mis reservas” y en el panel |
 | Contacto | Enviar formulario | Registro en panel + dos correos |
 | Chatbot | Preguntar “¿Cuál es el horario?” y luego algo general (“¿cómo duermo mejor?”) | Respuesta con datos de MongoDB y respuesta generativa; `source` indica `llm` o `rules` |
-| Modo del chatbot | `curl https://TU-APP.onrender.com/api/chatbot/welcome` | `"mode":"llm"` si la clave está configurada |
+| Modo del chatbot | `curl https://proyecto-cesar.onrender.com/api/chatbot/welcome` | `"mode":"llm"` si la clave está configurada |
 | Base de datos | Atlas → Browse Collections | Documentos creados |
 | Secretos | Buscar en GitHub | Sin `.env`, claves ni tokens |
 
@@ -151,7 +151,7 @@ Se ejecutan automáticamente en cada push/PR mediante `.github/workflows/securit
 ### DAST con OWASP ZAP
 
 1. Ir a GitHub → **Actions → Security (DevSecOps) → Run workflow**.
-2. Tener configurado el secreto `PUBLIC_URL` con `https://TU-APP.onrender.com`.
+2. Tener configurado el secreto `PUBLIC_URL` con `https://proyecto-cesar.onrender.com`.
 3. Descargar el artefacto `zap-baseline-report`.
 4. Guardar copia en `docs/evidencias/`.
 5. Documentar cada alerta en `docs/03-informe-seguridad.md`.

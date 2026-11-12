@@ -180,11 +180,11 @@ La guía completa está en [`docs/04-manual-despliegue.md`](docs/04-manual-despl
 2. Crear un Web Service en Render conectado al repositorio (o usar `render.yaml`).
 3. Configurar las variables de entorno en Render; los secretos JWT pueden generarse allí.
 4. Ejecutar `npm run seed` apuntando a Atlas para crear el administrador inicial.
-5. Verificar `https://<nombre-unico>.onrender.com/api/health` y las credenciales de demostración.
+5. Verificar `https://proyecto-cesar.onrender.com/api/health` y las credenciales de demostración.
 
 ### Estado del despliegue
 
-- URL de producción: `https://<nombre-unico>.onrender.com` (pendiente de asignar el nombre final en Render).
+- URL de producción: `https://proyecto-cesar.onrender.com`.
 - Health check: `GET /api/health` debe responder `{ "ok": true, "status": "up" }`.
 - Chatbot: debe responder con `"mode": "llm"` en `/api/chatbot/welcome`.
 - Credenciales de demostración: usar las definidas en `ADMIN_EMAIL` y `ADMIN_PASSWORD` de Render; no publicarlas en el repositorio.

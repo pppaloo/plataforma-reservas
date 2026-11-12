@@ -7,14 +7,14 @@
 ## 1. Declaración de alcance y autorización
 
 Las pruebas se ejecutaron **exclusivamente** sobre la aplicación desarrollada por el equipo
-(`https://TU-APP.onrender.com`), alojada en una cuenta propia de Render y una base MongoDB Atlas
+(`https://proyecto-cesar.onrender.com`), alojada en una cuenta propia de Render y una base MongoDB Atlas
 propia. No se realizaron pruebas contra sistemas de terceros. Las pruebas se efectuaron en un
 ambiente controlado y con respaldo previo de la base de datos.
 
 | Dato | Valor |
 | --- | --- |
 | Aplicación evaluada | ReservaPro |
-| URL | `https://<tu-app>.onrender.com` (completar con la URL real de Render) |
+| URL | `https://proyecto-cesar.onrender.com` |
 | Repositorio | `https://github.com/pppaloo/proyecto-cesar` |
 | Fecha del escaneo inicial | 11 / 11 / 2026 |
 | Fecha del re-escaneo | 11 / 11 / 2026 |
