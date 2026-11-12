@@ -12,7 +12,8 @@
 - [x] Reporte OWASP ZAP Baseline (`zap-inicial.html`, `zap-inicial.json`, `zap-inicial.md`).
 - [x] Resultado de CodeQL: estado success, 0 alertas (run 43136615875).
 - [x] `npm audit` de backend y frontend (0 vulnerabilidades).
-- [x] Pruebas 401/403, NoSQL injection, rate limit y prompt injection (`pruebas-manuales-resumen.md`).
+- [x] Pruebas 401/403, NoSQL injection, rate limit, prompt injection, exposición de datos y enumeración de usuarios (`pruebas-manuales-resumen.md`).
+- [x] Capturas reales de cada prueba en `capturas/` (ver `capturas/INDICE.md`).
 - [x] Evidencia de cabeceras HTTP y XSS (`cabeceras-http.txt`, `prueba-xss.txt`, `prueba-xss-panel.txt`, `xss-panel.png`).
 - [ ] Evidencia de correos enviados (SMTP) sin exponer credenciales.
 
