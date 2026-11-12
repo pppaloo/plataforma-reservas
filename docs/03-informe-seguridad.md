@@ -178,6 +178,7 @@ del despliegue, y el informe debe mantenerse actualizado con evidencia reproduci
 - [x] `docs/evidencias/npm-audit-final-backend.json`
 - [x] `docs/evidencias/npm-audit-final-frontend.json`
 - [ ] Capturas de CodeQL (alertas y cierre)
-- [ ] Capturas de las pruebas manuales de la sección 5
+- [x] Pruebas manuales automatizadas: `docs/evidencias/pruebas-manuales-resumen.md`
+- [ ] Capturas visuales de XSS y cabeceras HTTP
 - [ ] Enlaces a los commits de corrección
 - [x] Pipeline CI y Security en verde: runs `42666618606`, `42666618593`, `42666580938` y `42666580966`
