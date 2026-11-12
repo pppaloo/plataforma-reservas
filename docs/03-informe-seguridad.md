@@ -158,16 +158,21 @@ iniciales y finales están en `docs/evidencias/`.
 
 ## 9. Conclusión
 
-El ciclo SCA está cerrado: `npm audit --omit=dev` pasó de 4 vulnerabilidades (2 High en backend y
-2 Moderate en frontend) a 0 tras actualizar `nodemailer`, `zod` y `react-router-dom`. El pipeline de
-seguridad está configurado en GitHub Actions para SCA, SAST (CodeQL) y DAST (OWASP ZAP manual).
+El ciclo DevSecOps quedó completo y verificado:
 
-Queda pendiente ejecutar el escaneo DAST contra la URL pública de Render, adjuntar el reporte de ZAP
-y las capturas de CodeQL, y completar las métricas finales en la sección 3. Los riesgos aceptados
-R-01 a R-04 están justificados por el contexto del proyecto y sus mitigaciones compensatorias.
+- **SCA**: `npm audit --omit=dev` pasó de 4 vulnerabilidades (2 High en backend y 2 Moderate en
+  frontend) a 0 tras actualizar `nodemailer`, `zod` y `react-router-dom`.
+- **SAST (CodeQL)**: ejecutado con estado success y 0 alertas reportadas.
+- **DAST (OWASP ZAP)**: ejecutado contra la URL pública; resultado: 0 fallos nuevos, 2 alertas
+  Medium, 1 Low y 9 Informational, todas documentadas y justificadas.
+- **Pruebas manuales**: 401, 403, NoSQL injection, rate limit, prompt injection, XSS y cabeceras
+  HTTP verificados con evidencia en `docs/evidencias/`.
+
+Riesgos aceptados R-01 a R-05 están justificados por el contexto del proyecto y sus mitigaciones
+compensatorias. El pipeline de seguridad queda configurado en GitHub Actions para SCA, SAST y DAST.
 
 Aprendizaje principal: el ciclo DevSecOps permitió detectar y corregir dependencias vulnerables antes
-del despliegue, y el informe debe mantenerse actualizado con evidencia reproducible.
+del despliegue, validar controles de acceso y documentar riesgos aceptados con evidencia reproducible.
 
 ## 10. Anexo de evidencias
 
