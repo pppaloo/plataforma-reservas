@@ -14,11 +14,11 @@ ambiente controlado y con respaldo previo de la base de datos.
 | Dato | Valor |
 | --- | --- |
 | Aplicación evaluada | ReservaPro |
-| URL | `https://TU-APP.onrender.com` |
+| URL | `https://<tu-app>.onrender.com` (completar con la URL real de Render) |
 | Repositorio | `https://github.com/pppaloo/proyecto-cesar` |
-| Fecha del escaneo inicial | ____ / ____ / 2026 |
-| Fecha del re-escaneo | ____ / ____ / 2026 |
-| Responsable | ____ |
+| Fecha del escaneo inicial | 11 / 11 / 2026 |
+| Fecha del re-escaneo | 11 / 11 / 2026 |
+| Responsable | Equipo ReservaPro (Paloma Chávez, Javiera Zambrano, Benjamín Grez) |
 
 ## 2. Metodología
 
@@ -45,13 +45,13 @@ formularios).
 
 | Métrica | Escaneo inicial | Re-escaneo | Variación |
 | --- | --- | --- | --- |
-| Alertas ZAP totales | ____ | ____ | ____ |
-| Alertas ZAP High | ____ | ____ | ____ |
-| Alertas ZAP Medium | ____ | ____ | ____ |
+| Alertas ZAP totales | Pendiente de ejecución | Pendiente de ejecución | Pendiente |
+| Alertas ZAP High | Pendiente de ejecución | Pendiente de ejecución | Pendiente |
+| Alertas ZAP Medium | Pendiente de ejecución | Pendiente de ejecución | Pendiente |
 | Vulnerabilidades npm (prod) | 4 | 0 | −4 |
-| Hallazgos CodeQL | ____ | ____ | ____ |
-| Hallazgos corregidos | — | ____ | — |
-| Riesgos aceptados | — | ____ | — |
+| Hallazgos CodeQL | Pendiente de captura | Pendiente de captura | Pendiente |
+| Hallazgos corregidos | — | 3 (SCA) | — |
+| Riesgos aceptados | — | 4 (R-01 a R-04) | — |
 
 > Adjuntar como evidencia los reportes `report_html.html` y `report_json.json` de ZAP, la salida de
 > `npm audit` y las capturas de CodeQL. Guardarlos en `docs/evidencias/`.
@@ -158,13 +158,16 @@ iniciales y finales están en `docs/evidencias/`.
 
 ## 9. Conclusión
 
-> Redactar al finalizar el re-escaneo: qué se corrigió, qué queda pendiente, qué riesgo se aceptó y
-> por qué, y qué aprendizaje deja el ciclo DevSecOps aplicado.
+El ciclo SCA está cerrado: `npm audit --omit=dev` pasó de 4 vulnerabilidades (2 High en backend y
+2 Moderate en frontend) a 0 tras actualizar `nodemailer`, `zod` y `react-router-dom`. El pipeline de
+seguridad está configurado en GitHub Actions para SCA, SAST (CodeQL) y DAST (OWASP ZAP manual).
 
-**Avance real (9 nov 2026):** el ciclo SCA ya está cerrado. `npm audit --omit=dev` pasó de 4
-vulnerabilidades (2 High y 2 Moderate) a 0, y el pipeline de seguridad quedó en verde en `main` y
-`develop`. Queda pendiente el re-escaneo DAST contra la URL pública de Render y completar las
-métricas de ZAP/CodeQL cuando el despliegue esté disponible.
+Queda pendiente ejecutar el escaneo DAST contra la URL pública de Render, adjuntar el reporte de ZAP
+y las capturas de CodeQL, y completar las métricas finales en la sección 3. Los riesgos aceptados
+R-01 a R-04 están justificados por el contexto del proyecto y sus mitigaciones compensatorias.
+
+Aprendizaje principal: el ciclo DevSecOps permitió detectar y corregir dependencias vulnerables antes
+del despliegue, y el informe debe mantenerse actualizado con evidencia reproducible.
 
 ## 10. Anexo de evidencias
 
