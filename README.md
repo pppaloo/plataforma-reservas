@@ -5,7 +5,7 @@ autenticación JWT, control de acceso por roles, panel administrativo, formulari
 envío de correos, redes sociales administrables, chatbot generativo con contexto del negocio, pipeline CI/CD y
 análisis de seguridad DevSecOps.
 
-**Proyecto César** · Certamen práctico integrador — Desarrollo Web Seguro · DevOps · DevSecOps
+**ReservaPro** · Certamen práctico integrador — Desarrollo Web Seguro · DevOps · DevSecOps
 
 ## Integrantes
 
