@@ -1,7 +1,7 @@
 # 03 · Informe de análisis y corrección de vulnerabilidades
 
 > Este informe resume el análisis de seguridad realizado sobre la aplicación ReservaPro desplegada en
-> Render. Los hallazgos y métricas corresponden a escaneos reales ejecutados por el equipo entre el
+> Render. Los hallazgos y métricas corresponden a escaneos ejecutados por el equipo entre el
 > 9 y el 12 de noviembre de 2026.
 
 ## 1. Declaración de alcance y autorización
@@ -210,8 +210,8 @@ El ciclo DevSecOps quedó completo y verificado:
 Riesgos aceptados R-01 a R-05 están justificados por el contexto del proyecto y sus mitigaciones
 compensatorias. El pipeline de seguridad queda configurado en GitHub Actions para SCA, SAST y DAST.
 
-Aprendizaje principal: el ciclo DevSecOps permitió detectar y corregir dependencias vulnerables antes
-del despliegue, validar controles de acceso y documentar riesgos aceptados con evidencia reproducible.
+El ciclo DevSecOps permitió detectar y corregir dependencias vulnerables antes del despliegue, validar
+controles de acceso y documentar riesgos aceptados con evidencia reproducible.
 
 ## 10. Anexo de evidencias
 

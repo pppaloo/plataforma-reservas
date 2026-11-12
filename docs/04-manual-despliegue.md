@@ -35,7 +35,7 @@ mongosh "CADENA_DE_CONEXION" --eval "db.runCommand({ ping: 1 })"
 
 ## 3. Render
 
-### Opción A — usando `render.yaml` (recomendada)
+### Despliegue con `render.yaml` (recomendado)
 
 1. Subir el repositorio a GitHub.
 2. En Render: **New → Blueprint** y seleccionar el repositorio.
@@ -50,7 +50,7 @@ npm run build --prefix frontend
 npm start --prefix backend
 ```
 
-### Opción B — Web Service manual
+### Despliegue manual del Web Service
 
 | Campo | Valor |
 | --- | --- |

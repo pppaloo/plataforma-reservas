@@ -1,4 +1,4 @@
-# Checklist de entrega final
+# Estado de la entrega final
 
 ## Proyecto
 - Nombre: ReservaPro

@@ -21,12 +21,12 @@ integrante debe poder explicar al menos una decisión del módulo de otro.
 | Vie 6 nov | Repositorio, Atlas, `.env`, seed, ejecución local, ramas `main`/`develop` | Benjamín | `npm run dev` funciona y el admin inicia sesión |
 | Sáb 7 nov | Verificar auth completa, roles, expiración y refresh; probar registro/login desde la UI | Paloma | Rutas privadas devuelven 401/403 correctamente |
 | Dom 8 nov | Reservas, panel admin completo, contacto, chatbot y redes | Javiera + Benjamín | Los 12 escenarios de defensa son ejecutables en local |
-| Lun 9 nov | Despliegue en Render, variables, correos reales, CI en verde | Benjamín | URL HTTPS operativa y pipeline aprobado |
+| Lun 9 nov | Despliegue en Render, variables, correos de confirmación, CI en verde | Benjamín | URL HTTPS operativa y pipeline aprobado |
 | Mar 10 nov | Escaneo inicial: ZAP + npm audit + CodeQL; registrar hallazgos | Paloma | Informe con tabla inicial y evidencias guardadas |
 | Mié 11 nov | Correcciones de dependencias, verificación con `npm audit` y pruebas manuales, informe final, README y ensayo de defensa | Todos | Tabla antes/después completa y ensayo cronometrado |
 | Jue 12 nov | Entrega en EVA y verificación final | Todos | Enlaces, documentos y credenciales cargados y visibles |
 
-> El día 11 es colchón real. No planificar correcciones para el mismo día de la entrega.
+> El día 11 es tiempo de colchón. No planificar correcciones para el mismo día de la entrega.
 
 ## 3. Paquetes de trabajo y definición de “terminado”
 
@@ -59,7 +59,7 @@ integrante debe poder explicar al menos una decisión del módulo de otro.
 - [ ] Formulario de contacto con validación y mensajes claros.
 - [ ] Chatbot generativo con bienvenida, sugerencias, contexto de FAQ/servicios, fallback y registro.
 - [ ] Panel para administrar FAQ y redes.
-- [ ] Correos: institucional + confirmación (plantillas escapadas).
+- [ ] Correos: institucional + confirmación (plantillas con escape de HTML).
 
 **Terminado cuando:** los dos correos llegan y el chatbot responde con IA usando datos de MongoDB
 (y cae a reglas si el proveedor falla).
@@ -148,7 +148,7 @@ integrante debe poder explicar al menos una decisión del módulo de otro.
 13. **¿Qué información no debe aparecer en logs?**
     Contraseñas, tokens, cuerpos completos de solicitudes, credenciales SMTP y datos personales
     innecesarios.
-14. **¿Por qué el formulario no permite elegir el destinatario?**
+14. **¿Por qué el formulario no permite seleccionar el destinatario?**
     Para evitar que se use como relay de spam. El buzón institucional está fijo en configuración.
 15. **¿Cómo funciona el chatbot generativo?**
     El backend arma un contexto con las FAQ activas y el catálogo de servicios, lo envía a un
@@ -159,15 +159,17 @@ integrante debe poder explicar al menos una decisión del módulo de otro.
     sistema instruye ignorar cambios de rol, no se envían datos personales ni secretos, se limita el
     largo de entrada/salida, hay timeout y rate limiting, y la clave solo existe en el servidor.
 
-## 6. Checklist de entrega en EVA
+## 6. Entrega en EVA
 
-- [ ] URL pública HTTPS funcionando (probar en incógnito).
-- [ ] Repositorio GitHub público con README e integrantes.
-- [ ] `.env` **no** versionado; `.env.example` sí.
-- [ ] Credenciales de demostración entregadas por canal seguro.
-- [ ] Informe de seguridad con tabla antes/después y evidencias adjuntas.
-- [ ] Manual técnico y de despliegue.
-- [ ] Pipeline CI en verde y captura del flujo de ramas/PR.
-- [ ] Los tres integrantes identificados en README y en la entrega.
+| Requisito | Verificación |
+| --- | --- |
+| URL pública HTTPS funcionando | Probar en ventana de incógnito |
+| Repositorio GitHub público con README e integrantes | Repositorio visible y README completo |
+| `.env` no versionado; `.env.example` sí | Revisar `.gitignore` |
+| Credenciales de demostración entregadas | Por el canal oficial del certamen |
+| Informe de seguridad con tabla antes/después y evidencias adjuntas | Archivo en `docs/` |
+| Manual técnico y de despliegue | Archivos en `docs/` |
+| Pipeline CI en verde y captura del flujo de ramas/PR | Ejecutar en GitHub Actions |
+| Tres integrantes identificados en README y entrega | README y portada del informe |
 - [ ] Ensayo completo de los 12 escenarios de defensa.
 - [ ] Verificar que los archivos quedaron visibles en EVA.

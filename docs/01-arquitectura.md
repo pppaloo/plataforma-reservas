@@ -36,7 +36,7 @@ La plataforma resuelve tres problemas concretos:
 
 **Excluido (declarado explícitamente)**
 
-- Pasarela de pagos real. El precio se muestra, pero el pago se coordina presencialmente.
+- Pasarela de pagos. No está integrada; el precio se muestra y el pago se coordina presencialmente.
 - Recuperación de contraseña por correo (se documenta como trabajo futuro).
 - Notificaciones push o por SMS.
 - Chatbot con acceso a datos de usuarios o capacidad de ejecutar acciones (el modelo solo recibe

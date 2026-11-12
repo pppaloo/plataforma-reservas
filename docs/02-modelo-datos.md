@@ -166,15 +166,15 @@ Verificar con `db.<coleccion>.getIndexes()`.
 
 ## 6. Respaldo y recuperación
 
-**Opción A — mongodump / mongorestore** (recomendada para evidencia):
+**Respaldo con mongodump / mongorestore** (recomendado para evidencia):
 
 ```bash
 mongodump --uri="$MONGODB_URI" --out=backup/2026-11-11
 mongorestore --uri="$MONGODB_URI" --drop backup/2026-11-11
 ```
 
-**Opción B — Atlas UI**: Cluster → Collections → Export collection (JSON/CSV). Para respaldo
-completo, Database Deployments → Backup (según plan contratado; en M0 usar export manual).
+**Respaldo desde la consola de Atlas**: Cluster → Collections → Export collection (JSON/CSV). Para respaldo
+completo, Database Deployments → Backup (según el plan contratado; en M0, exportación manual).
 
 **Procedimiento documentado**
 
